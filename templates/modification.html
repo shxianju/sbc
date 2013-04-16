@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <title>Subcloning DEMO</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <link href="./css/style.css" rel="stylesheet">
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("div.surrounding#re_sub").hide();
+            //$.fn.test = function()
+            $('map').children().click(function(){
+                var $this_ez = $(this).attr("alt");
+                var $this_pos = $(this).attr("pos");
+                var $ez1=$("#enzyme1");
+                var $ez2=$("#enzyme2");
+                $("div.surrounding#re_sub").show();
+                //alert($this_ez+$ez1.text()+$ez2.text());
+                if($ez1.text()==$this_ez){
+                    $ez1.text("");
+                    $("#ez1_pos").text("site 1")
+                }
+                else if($ez2.text()==$this_ez){
+                    $ez2.text("");
+                    $("#ez2_pos").text("site 2")
+                }
+                else if ($ez1.text()==""){
+                    $ez1.text($this_ez);
+                    $("#ez1_pos").text(" at position "+$this_pos);
+                }
+                else if($ez2.text()==""){
+                    $ez2.text($this_ez);
+                    $("#ez2_pos").text(" at position "+$this_pos);
+                }
+                else{
+                    alert("You have selected too many enzymes, please cancel a selected enzyme first.")
+                }
+                //alert($("div.surrounding#re_sub #enzyme1").text());
+                //alert($(this).attr("alt"));
+            });
+            $("#submit").click(function(){
+                if ($("#enzyme1").text()=="" || $("#enzyme2").text()==""){
+                    alert("Please select the position you want to insert your sequence in.");
+                    return false;
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2>Subcloning Tool-----<i><small>modify your construct</small></i></h2>
+    <div class="surrounding" >
+        <p style="color:grey;">----</p>
+        <br><br>
+        <img src="./test.png" border="0" width="620" height="160" alt="Sequence diagram" usemap="#seq_map1" title="test"><br>
+        <map id="seq_map1">
+            <area shape="rect" coords="280,50,300,160" alt="BamHI" pos="456" href="#" onclick="return false">
+            <area shape="rect" coords="380,50,400,160" alt="XhoI" pos="489" href="#" onclick="return false">
+            <area shape="rect" coords="480,50,500,160" alt="EcoRI" pos= "509" href="#" onclick="return false">
+        </map>
+        <form method="POST" enctype="multipart/form-data" action="./subcloning.py" >
+            <div class="surrounding" id="re_sub" style="border-style:dashed;">
+                Do you want to insert you seq between:<br>
+                <span id=enzyme1 style="color:blue"></span><span id=ez1_pos>Site 1</span>
+                <br>and<br>
+                <span id=enzyme2 style="color:blue"></span><span id=ez2_pos>Site 2</span>
+                <br><span style="color:grey;">(the correct number of protective nucleotides will be automatically added to protect<br>
+                your inserted sequence and to maintain the reading frame)</span>
+            </div><br>
+            <div style="clear:both;"><img id="plasmid_fig" src="plasmid_test.png" border="0" height=520  /></div><br>
+            <div >
+                <br><label>A view of the Multiple Cloning Site</label><br>
+                <textarea name="ins_seq2" rows="5" cols="70" readonly style="background:#E6E6FA;color:grey;">
+
+                </textarea><br>
+                <textarea name="ins_seq" style="display:none"></textarea>
+                <input id="submit" class="button" type="submit" value="Next" name="goto_report" style="width:160px">
+                <input type="button" class="button" onclick=history.go(-1) value="Back" >
+            </div>
+        </form>
+    </div>
+    <div style="position:absolute;width:100;height:10;top:1300px;left:0px;border:1px dotted black"></div>
+</body>
+</html>

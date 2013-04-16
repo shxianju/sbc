@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <link href="./css/style.css" rel="stylesheet">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Subcloning DEMO</title>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $.fn.change_sbox = function() {
+                var $org_value=$("#organism :selected").attr("value");
+                var $tag_value=$("#tag :selected").attr("value");
+                //$("#task_name").attr('value',$org_value+" "+$tag_value)
+                $('#vector option').show() ;
+                if ($org_value != "na") {
+                    $('#vector option[org!="' + $org_value + '"]').hide();
+                    $('#vector option[org="na"]').show();
+                }
+                if ($tag_value != "na") {
+                    $('#vector option[tag!="' + $tag_value + '"]').hide();
+                    $('#vector option[tag="na"]').show();
+                }
+            }
+            $.fn.change_sbox();
+            $("#organism option").click(function(){
+                $.fn.change_sbox();
+            });
+            $("#tag option").click(function(){
+                $.fn.change_sbox();
+            });
+            $("input[name='gotoModification']").click(function(){
+                if ($("select#vector :selected").attr("value") == "na") {
+
+                    alert("Please select a vector!");
+                    return false;
+                }
+                else if ($("textarea").val()==""){
+                    alert("Please input the DNA sequence you want to subclone!");
+                    return false;
+                }
+
+            });
+
+        });
+    </script>
+</head>
+<body>
+<h2>Subcloning Tool</h2>
+<div class=surrounding>
+    <form method="POST" enctype="multipart/form-data" action="./subcloning.py">
+        <h3>-----<i>Select your cloning vector</i></h3>
+        <span title="This name will appear in your invoice">Task Name </span>
+        <input type="text" id="task_name"  name="task_name" size=20 value="">
+        <table border=0>
+            <tr>
+                <td title="This choice also affect your OptimumGene host organism.">
+                    Expression system:
+                </td>
+                <td>
+                    <div class=DivSel>
+                        <select id=organism name=organism>
+                            <option value="na">Not selected</option>
+                            <option value="e_coli">E coli</option>
+                            <option value="yeast">Yeast</option>
+                        </select>
+                    </div>
+                </td>
+                <td width=40></td>
+                <td title="Select the copy number you want">
+                    Copy number:
+                </td>
+                <td>
+                    <div class=DivSel>
+                        <select id=copynum name=copynum>
+                            <option value="na">Not selected</option>
+                            <option value="high">High</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td title="Specify the tag you want.">
+                    Tag:
+                </td>
+                <td>
+                    <div class=DivSel>
+                        <select id=tag name=tag>
+                            <option value="na">Not selected</option>
+                            <option value="myc">Myc</option>
+                            <option value="his">His</option>
+                            <option value="no_tag">No tag</option>
+                        </select>
+                    </div>
+                </td>
+                <td width=40></td>
+                <td title="Select the resistance you want.">
+                    Resistance:
+                </td>
+                <td>
+                    <div class=DivSel>
+                        <select id=resistance name=resistance>
+                            <option value="na">Not selected</option>
+                            <option value="neo">Neo</option>
+                            <option value="kan">Kan</option>
+                            <option value="amp">Amp</option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>Vector:</td>
+                <td>
+                    <div class=DivSel>
+                        <select id=vector name=vector>
+                            <option value="na" org="na" tag="na">Not selected</option>
+                            <option value="">---Genscript Vectors----</option>
+                            <option value="pBR_322" org="e_coli" tag="myc">pBR_322_myc_coli</option>
+                            <option value="pET28" org="e_coli" tag="his">pET28_his_coli</option>
+                            <option value="pUC" org="e_coli" tag="no_tag">pUC_coli</option>
+                            <option value="">---Commercial Vectors---</option>
+                            <option value="pBR_32" org="yeast" tag='his'>pBR_32_his_yeast</option>
+                            <option value="pET2" org="yeast" tag="his">pET2_his_yeast</option>
+                            <option value="pU" org="yeast" tag="no_tag">pU_yeast</option>
+                            <option value="pBR_689" org="yeast" tag="myc">pBR_689_myc_yeast</option>
+                            <option value="pET83" org="e_coli" tag="no_tag">pET83_coli</option>
+                            <option value="pUC_231" org="e_coli" tag="no_tag">pUC_231_coli</option>
+                            <option value="">----Archived Vectors----</option>
+                            <option value="pUD" org="yeast" tag='myc'>pUD_myc_yeast</option>
+                            <option value="pEQ11" org="yeast" tag="his">pEQ11_his_yeast</option>
+                            <option value="pQC" org="yeast" tag="no_tag">pQC_yeast</option>
+                        </select>
+                    </div>
+                </td>
+                <td width=40></td>
+                <td colspan="2">
+                    <div style="float: left" >
+                        <input id="squaredOne" type="checkbox" name="advance" value="None">
+                    </div>
+                    <div >
+                    <small>
+                        Use <b>Advanced</b> Mode: more<br>
+                        customized options (Add tags, etc.)
+                    </small>
+                    </div>
+                </td>
+        </table>
+        <center><span>--------------------------------------------------------------------------------------------------------------------------------------------
+        </span></center>
+        <h3>-----<i>Input your insert sequence</i></h3>
+        <table>
+            <tr>
+                <td title="Select the name of the 5' restriction enzyme you want.">
+                    5' RE name:
+                </td>
+                <td>
+                    <div class="DivSel SelectWidth">
+                        <select id=5re name=5re>
+                            <option value="na">Not selected</option>
+                            <option value="ecori">EcoRI:AG|GCCT</option>
+                        </select>
+                    </div>
+                </td>
+                <td title="Select the name of the 3' restriction enzyme you want.">
+                    3' RE name:
+                </td>
+                <td>
+                    <div class="DivSel SelectWidth">
+                        <select id=3re name=3re>
+                            <option value="na">Not selected</option>
+                            <option value="ecori">EcoRI:AG|GCCT</option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span title="Input the your 5' untranslated region sequence">5' UTR sequence: </span>
+                </td>
+                <td>
+                    <input type="text" id="5utr"  name="5utr" size=20 value="">
+                </td>
+                <td>
+                    <span title="Input the your 3' untranslated region sequence">3' UTR sequence: </span>
+                </td>
+                <td>
+                    <input type="text" id="3utr"  name="5utr" size=20 value="">
+                </td>
+            </tr>
+        </table>
+        <p title="This name might appear in the report of your plasmid.">Insert name:<input value="" name="order_name"></p>
+        <p>Insert Sequence (Please input your <b>coding sequence</b> in the textbox below):</p>
+        <textarea  name="ins_seq" rows="7" cols="80"></textarea><br>
+        <input class="button" type="submit" value="Start" name="goto_modification1">
+        <input class="button" type=reset value="Reset">
+
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Subcloning DEMO</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<link href="./css/style.css" rel="stylesheet">
+</head>
+<body>
+<h2>Subcloning Tool-----<i><small>report on your construct</small></i></h2>
+<div class="surrounding" style= "width:900;">
+    <table border="1">
+        <tr>
+            <th width=20>icon</th>
+            <th width=200>item</th>
+            <th width=350>content</th>
+            <th width=300>comment</th>
+        </tr>
+        <tr>
+            <td><center><img src="pics/check.png" border="0" width=15/></center></td>
+            <td>Start codon & stop codon</td>
+            <td>ATG & TAA</td>
+            <td>none</td>
+        </tr>
+        <tr>
+            <td><center><img src="pics/check.png" border="0" width=15/></center> </td>
+            <td>N' tag, C' tag</td>
+            <td>N' myc tag</td>
+            <td>none</td>
+        </tr>
+        <tr>
+            <td><center><img src="pics/warning.png" border="0" width=15/></center></td>
+            <td>5' RE site</td>
+            <td>There are several BamHI sites in your gene</td>
+            <td>none</td>
+        </tr>
+    </table>
+    <input type="button" value="Back" class=button style="height:30px" onclick=history.go(-1)>
+    <input type="button" value="Send to Genscript&#13;&#10; Expert for help" class=button style="height:30px;font-size:9px">
+    <br><br><img src="./plasmid_test.png" width="800" >
+    <pre><b>Translated sequence (the aas are colored according to the hydrophobicity table. The most hydrophobic
+residues are coloured red and the most hydrophilic ones are coloured blue.):</b>
+<span style="text-transform:uppercase;color:#0c00f3;"> m   a   r   </span><span style="color:#ff0000;">m   n   r   p   </span>a   p   v   e   <span style="color:#b0004f;">v   s   y   k   h   </span>m   r   f   l   i   t   h   n   p   t<span style="color:#b0004f;">   n   a
+ t   l   s   t   f   i   e   d   l   k   k   y   g   a   t   t   v   v   r   v   c   e   v   t   y   d   k   t
+ p   l   e   k   </span>d   g   i   t   <span style="color:#ff0000;">v   v   d   w   p   f   d   d   g   </span>a   p   p   p   g   k   v   v   e   d   <span style="color:#5e00a1;">w</span>
+ e   a   p   g   s   c   v   a   v   <span style="color:#b0004f;">h   c   v   a   g   l   g   r   k   r   r   </span>g   a   i   n   s   k   q   l
+ t   y   l   e   k   y   r   p   k   q   r   l   r   f   <span style="color:#b0004f;">k   d   p   h   t</span>   h   k   t   r   c   c   v   k   a
+ m   l   s   l   v   k   a   k   f   c   <span style="color:#b0004f;">k   d   p   h   t   </span>k   a   k   f   *</pre>
+    <pre><b>The DNA sequence:</b>
+atg gct cgg atg aac cgc ccg gcc ccg gtg gag gtg agc tac aaa cac atg gag gac ctg aag aag tac ggg gct acc act gtg
+cgc ttc ctc atc acc cac aac ccc acc aac gcc acg ctc agc acc ttc att gag gac ctg aag aag tac ggg gct acc act gtg
+gtg cgt gtg tgt gaa gtg acc tat gac aaa acg ccg ctg gag aag gat ggc atc acc gtt gtg gac tgg ccg ttt gac gat ggg
+gcg ccc ccg ccc ggc aag gta gtg gaa gac tgg ctg agc ctg gtg aag gcc aag ttc tgt gag gcc ccc ggc agc tgc gtg gct
+gtg cac tgc gtg gcg ggc ctg ggc cgg aag cgc cgc gga gcc atc aac agc aag cag ctc acc tac ctg gag aaa tac cgg ccc
+aaa cag agg ctg cgg ttc aaa gac cca cac acg cac aag acc cgg tgc tgc gtt atg taa</pre>
+<form method="POST" enctype="multipart/form-data" action="./subcloning.py" >
+    Plasmid Preparation:
+    <input type="text" id="plasmid_q"  name="plasmid_q" size=2 value="4 ">
+    ug<br>
+    <input id="submit" type="submit" value="Continue to&#13;&#10; Mutagenesis" class="button" name="goto_muta" style="height:30px;font-size: 9px">
+    <input type="button" value="Export in &#13;&#10;Genbank format" class="button" name="export" style="height:30px;font-size: 9px">
+    <input type="button" value="Get Quote" class="button" name="quote" style="height:30px;width:100px">
+</form>
+</div>
+<div style="position:absolute;height:100;top:500;border:1px dotted white"></div>
+</body>
+</html>

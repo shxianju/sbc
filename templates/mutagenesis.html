@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <title>test</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <link href="./css/style.css" rel="stylesheet">
+    <script type="text/javascript">
+    </script>
+</head>
+<body>
+<h2>Subcloning Tool-----<i><small>mutagenesis</small></i></h2>
+<div class="surrounding" >
+    <pre><b>Translated sequence (the aas are colored according to the hydrophobicity table. The most hydrophobic
+residues are coloured red and the most hydrophilic ones are coloured blue.):</b>
+<span style="text-transform:uppercase;color:#0c00f3;"> m   a   r   </span><span style="color:#ff0000;">m   n   r   p   </span>a   p   v   e   <span style="color:#b0004f;">v   s   y   k   h   </span>m   r   f   l   i   t   h   n   p   t<span style="color:#b0004f;">   n   a
+ t   l   s   t   f   i   e   d   l   k   k   y   g   a   t   t   v   v   r   v   c   e   v   t   y   d   k   t
+ p   l   e   k   </span>d   g   i   t   <span style="color:#ff0000;">v   v   d   w   p   f   d   d   g   </span>a   p   p   p   g   k   v   v   e   d   <span style="color:#5e00a1;">w</span>
+ e   a   p   g   s   c   v   a   v   <span style="color:#b0004f;">h   c   v   a   g   l   g   r   k   r   r   </span>g   a   i   n   s   k   q   l
+ t   y   l   e   k   y   r   p   k   q   r   l   r   f   <span style="color:#b0004f;">k   d   p   h   t</span>   h   k   t   r   c   c   v   k   a
+ m   l   s   l   v   k   a   k   f   c   <span style="color:#b0004f;">k   d   p   h   t   </span>k   a   k   f   *</pre>
+    <form method="POST" enctype="multipart/form-data" action="./subcloning.py" >
+        <div class="surrounding" id="re_sub" style="border-style:dashed;">
+            Mutagenesis: Please enter the position you want to add a mutation :<br>
+            <input class="button" type="submit" value="Add a &#13;&#10;mutation site" name="goto_report" style="height:30px; font-size: 9px">
+            <input class="button" type="submit" value="Add a &#13;&#10;mutant site" name="goto_report" style="height:30px; font-size: 9px">
+            <input class="button" type="submit" value="Finish and &#13;&#10;get quote" name="goto_report" style="height:30px; font-size: 9px">
+        </div><br>
+
+    </form>
+</div>
+<div style="position:absolute;width:100;height:10;top:1100px;left:0px;border:1px dotted black"></div>
+</body>
+</html>
