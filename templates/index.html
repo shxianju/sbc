@@ -8,10 +8,12 @@
     <script type="text/javascript">
         $(document).ready(function(){
             $.fn.change_sbox = function() {
-                var $org_value=$("#organism :selected").attr("value");
+                var $exp_sys_value=$("#exp_sys :selected").attr("value");
+                var $cp_num_value=$("#cp_num :selected").attr("value");
+                var $resist_value=$("#resist :selected").attr("value");
                 var $tag_value=$("#tag :selected").attr("value");
                 //$("#task_name").attr('value',$org_value+" "+$tag_value)
-                $('#vector option').show() ;
+                $('#vector option').show();
                 if ($org_value != "na") {
                     $('#vector option[org!="' + $org_value + '"]').hide();
                     $('#vector option[org="na"]').show();
@@ -58,7 +60,7 @@
                 </td>
                 <td>
                     <div class=DivSel>
-                        <select id=organism name=organism>
+                        <select id=exp_sys name=exp_sys>
                             <option value="na">Not selected</option>
                             <option value="e_coli">E coli</option>
                             <option value="yeast">Yeast</option>
@@ -71,7 +73,7 @@
                 </td>
                 <td>
                     <div class=DivSel>
-                        <select id=copynum name=copynum>
+                        <select id=cp_num name=cp_num>
                             <option value="na">Not selected</option>
                             <option value="high">High</option>
                             <option value="low">Low</option>
@@ -99,7 +101,7 @@
                 </td>
                 <td>
                     <div class=DivSel>
-                        <select id=resistance name=resistance>
+                        <select id=resist name=resist>
                             <option value="na">Not selected</option>
                             <option value="neo">Neo</option>
                             <option value="kan">Kan</option>
