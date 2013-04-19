@@ -12,22 +12,43 @@
                 var $cp_num_value=$("#cp_num :selected").attr("value");
                 var $resist_value=$("#resist :selected").attr("value");
                 var $tag_value=$("#tag :selected").attr("value");
-                //$("#task_name").attr('value',$org_value+" "+$tag_value)
+                $("#task_name").attr('value', $exp_sys_value + " " + $cp_num_value + " " + $resist_value + " " + $tag_value);
                 $('#vector option').show();
-                if ($org_value != "na") {
-                    $('#vector option[org!="' + $org_value + '"]').hide();
-                    $('#vector option[org="na"]').show();
+                if ($exp_sys_value != "na") {
+                    $('#vector option[exp_sys!='+$exp_sys_value+']').hide();
+                    $('#vector option[ separator="T"]').show();
+                    $('#vector option[exp_sys="na"]').show();
+                }
+                if ($cp_num_value != "na") {
+                    $('#vector option[cp_num!="' + $cp_num_value + '"]').hide();
+                    $('#vector option[ separator="T"]').show();
+                    $('#vector option[cp_num="na"]').show();
+                }
+                if ($resist_value != "na") {
+                    $('#vector option[resist!="' + $resist_value + '"]').hide();
+                    $('#vector option[ separator="T"]').show();
+                    $('#vector option[resist="na"]').show();
                 }
                 if ($tag_value != "na") {
                     $('#vector option[tag!="' + $tag_value + '"]').hide();
+                    $('#vector option[ separator="T"]').show();
                     $('#vector option[tag="na"]').show();
                 }
             }
             $.fn.change_sbox();
-            $("#organism option").click(function(){
+            $("#exp_sys option").click(function(){
+                $.fn.change_sbox();
+            });
+            $("#cp_num option").click(function(){
+                $.fn.change_sbox();
+            });
+            $("#resist option").click(function(){
                 $.fn.change_sbox();
             });
             $("#tag option").click(function(){
+                $.fn.change_sbox();
+            });
+            $(".button[value=Reset]").click(function(){
                 $.fn.change_sbox();
             });
             $("input[name='gotoModification']").click(function(){
@@ -115,22 +136,48 @@
                 <td>
                     <div class=DivSel>
                         <select id=vector name=vector>
-                            <option value="na" org="na" tag="na">Not selected</option>
-                            <option value="">---Genscript Vectors----</option>
-                            <option value="pBR_322" org="e_coli" tag="myc">pBR_322_myc_coli</option>
-                            <option value="pET28" org="e_coli" tag="his">pET28_his_coli</option>
-                            <option value="pUC" org="e_coli" tag="no_tag">pUC_coli</option>
-                            <option value="">---Commercial Vectors---</option>
-                            <option value="pBR_32" org="yeast" tag='his'>pBR_32_his_yeast</option>
-                            <option value="pET2" org="yeast" tag="his">pET2_his_yeast</option>
-                            <option value="pU" org="yeast" tag="no_tag">pU_yeast</option>
-                            <option value="pBR_689" org="yeast" tag="myc">pBR_689_myc_yeast</option>
-                            <option value="pET83" org="e_coli" tag="no_tag">pET83_coli</option>
-                            <option value="pUC_231" org="e_coli" tag="no_tag">pUC_231_coli</option>
-                            <option value="">----Archived Vectors----</option>
-                            <option value="pUD" org="yeast" tag='myc'>pUD_myc_yeast</option>
-                            <option value="pEQ11" org="yeast" tag="his">pEQ11_his_yeast</option>
-                            <option value="pQC" org="yeast" tag="no_tag">pQC_yeast</option>
+                            <option value="na" exp_sys="na" tag="na" cp_num="na" resist="na">
+                                Not selected
+                            </option>
+                            <option value="" separator="T">---Genscript Vectors----</option>
+                            <option value="pBR_322" exp_sys="e_coli" tag="myc" cp_num="high" resist="neo">
+                                pBR_322_myc_coli
+                            </option>
+                            <option value="pET28" exp_sys="e_coli" tag="his" cp_num="high" resist="neo">
+                                pET28_his_coli
+                            </option>
+                            <option value="pUC" exp_sys="e_coli" tag="no_tag" cp_num="low" resist="neo">
+                                pUC_coli
+                            </option>
+                            <option value="" separator="T">---Commercial Vectors---</option>
+                            <option value="pBR_32" exp_sys="yeast" tag='his'  cp_num="low" resist="kan">
+                                pBR_32_his_yeast
+                            </option>
+                            <option value="pET2" exp_sys="yeast" tag="his" cp_num="low" resist="amp">
+                                pET2_his_yeast
+                            </option>
+                            <option value="pU" exp_sys="yeast" tag="no_tag" cp_num="high" resist="kan">
+                                pU_yeast
+                            </option>
+                            <option value="pBR_689" exp_sys="yeast" tag="myc" cp_num="high" resist="amp">
+                                pBR_689_myc_yeast
+                            </option>
+                            <option value="pET83" exp_sys="e_coli" tag="no_tag" cp_num="high" resist="neo">
+                                pET83_coli
+                            </option>
+                            <option value="pUC_231" exp_sys="e_coli" tag="no_tag" cp_num="high" resist="neo">
+                                pUC_231_coli
+                            </option>
+                            <option value="" separator="T">----Archived Vectors----</option>
+                            <option value="pUD" exp_sys="yeast" tag='myc' cp_num="high" resist="neo">
+                                pUD_myc_yeast
+                            </option>
+                            <option value="pEQ11" exp_sys="yeast" tag="his" cp_num="high" resist="neo">
+                                pEQ11_his_yeast
+                            </option>
+                            <option value="pQC" exp_sys="yeast" tag="no_tag"  cp_num="high" resist="neo">
+                                pQC_yeast
+                            </option>
                         </select>
                     </div>
                 </td>
@@ -194,7 +241,7 @@
         <p>Insert Sequence (Please input your <b>coding sequence</b> in the textbox below):</p>
         <textarea  name="ins_seq" rows="7" cols="80"></textarea><br>
         <input class="button" type="submit" value="Start" name="goto_modification1">
-        <input class="button" type=reset value="Reset">
+        <input class="button" type=reset value="Reset" >
 
     </form>
 </div>
