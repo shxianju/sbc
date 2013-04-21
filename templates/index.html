@@ -12,7 +12,7 @@
                 var $cp_num_value=$("#cp_num :selected").attr("value");
                 var $resist_value=$("#resist :selected").attr("value");
                 var $tag_value=$("#tag :selected").attr("value");
-                $("#task_name").attr('value', $exp_sys_value + " " + $cp_num_value + " " + $resist_value + " " + $tag_value);
+//                $("#task_name").attr('value', $exp_sys_value + " " + $cp_num_value + " " + $resist_value + " " + $tag_value);
                 $('#vector option').show();
                 if ($exp_sys_value != "na") {
                     $('#vector option[exp_sys!='+$exp_sys_value+']').hide();
@@ -58,7 +58,7 @@
                     return false;
                 }
                 else if ($("textarea").val()==""){
-                    alert("Please input the DNA sequence you want to subclone!");
+                    alert("You can not leave the insert sequence box empty!");
                     return false;
                 }
 
