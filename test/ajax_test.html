@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <script type="text/javascript">
+        $(function(){
+            $("#sub").click(function(){
+                $.post("ajax_test.py",{a:$("#sub").val(),
+                b:"x"},function(data){
+                    $("#tt2").replaceWith("<p id='tt2'>"+data+"</p>");
+                });
+                return false;
+            });
+        });
+    </script>
+</head>
+<body>
+<input type="button" value="sub" id="sub">
+<input id="tt" type="text" size=50 value="none">
+<p id="tt2" >none</p>
+</body>
+</html>

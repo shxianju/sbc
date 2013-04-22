@@ -239,9 +239,23 @@
         </table>
         <p title="This name might appear in the report of your plasmid.">Insert name:<input value="" name="order_name"></p>
         <p>Insert Sequence (Please input your <b>coding sequence</b> in the textbox below):</p>
-        <textarea  name="ins_seq" rows="7" cols="80"></textarea><br>
+        <textarea  id="ins_seq" name="ins_seq" rows="7" cols="80"></textarea><br>
+        <script type="text/javascript">
+            $(function(){
+                $("#check").click(function(){
+                    $.post("subcloning.py",{
+                        ins_seq : $("#ins_seq").val()
+                    },function(data,textStatus){
+                                $("#test").replaceWith('<p id="test">'+data+'</p>');
+                            }
+                    );
+                })
+            })
+        </script>
+        <input class="button" type="button" value="Check" id="check">
         <input class="button" type="submit" value="Start" name="goto_modification1">
         <input class="button" type=reset value="Reset" >
+        <p id="test">check msg goes here</p>
 
     </form>
 </div>
