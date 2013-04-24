@@ -13,9 +13,12 @@ def check_seq(ins_seq):
     elif re.search(r"[^atgcu0-9\s]",ins_seq,re.I):
         return "Please only input a DNA/mRNA sequence"
     true_seq=re.sub(r"[\s0-9]+","",ins_seq)
-    if len(true_seq)%3 != 0:
-        return "Please input your CDS region, which means the length of your sequence should be multiples of 3."
-
+    if len(true_seq)<=60:
+        return "The input sequence should be longer than 60bp"
+    elif len(true_seq)%3 != 0:
+        return "Please input your CDS region, which means the length of your sequence should be multiple of 3."
+    else:
+        return "ok result"#pass
 
 
 if not form:
@@ -30,7 +33,7 @@ elif form.has_key("goto_report"):
 elif form.has_key("goto_muta"):
     template=env.get_template("mutagenesis.html")
     print template.render()
-elif form.has_key("ins_seq"):
-    print check_seq(form["ins_seq"].value)
+elif form.has_key("ins_seq_check"):
+    print check_seq(form["ins_seq_check"].value)
 
 
