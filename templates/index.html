@@ -151,24 +151,11 @@
                                 pUC_coli
                             </option>
                             <option value="" separator="T">---Commercial Vectors---</option>
-                            <option value="pBR_32" exp_sys="yeast" tag='his'  cp_num="low" resist="kan">
-                                pBR_32_his_yeast
-                            </option>
-                            <option value="pET2" exp_sys="yeast" tag="his" cp_num="low" resist="amp">
-                                pET2_his_yeast
-                            </option>
-                            <option value="pU" exp_sys="yeast" tag="no_tag" cp_num="high" resist="kan">
-                                pU_yeast
-                            </option>
-                            <option value="pBR_689" exp_sys="yeast" tag="myc" cp_num="high" resist="amp">
-                                pBR_689_myc_yeast
-                            </option>
-                            <option value="pET83" exp_sys="e_coli" tag="no_tag" cp_num="high" resist="neo">
-                                pET83_coli
-                            </option>
-                            <option value="pUC_231" exp_sys="e_coli" tag="no_tag" cp_num="high" resist="neo">
-                                pUC_231_coli
-                            </option>
+                            {% for record in records %}
+                            <option exp_sys="{{ record['exp_sys'] }}" tag="{{ record['tag'] }}"
+                                    cp_num="{{ record['cp_num'] }}" resist="{{ record['resist'] }}"
+                                    >{{ record['name'] }}</option>
+                            {% endfor %}
                             <option value="" separator="T">----Archived Vectors----</option>
                             <option value="pUD" exp_sys="yeast" tag='myc' cp_num="high" resist="neo">
                                 pUD_myc_yeast

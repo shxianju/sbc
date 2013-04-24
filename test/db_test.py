@@ -11,8 +11,9 @@ cnx = mysql.connector.connect(**config)
 cursor = cnx.cursor()
 query = ("SELECT exp_sys,name,tag,cp_num,resist,path FROM test_vector ")
 cursor.execute(query)
+records=[]
 for (exp_sys,name,tag,cp_num,resist,path) in cursor:
-    print "exp_sys: %s, name: %s, tag: %s, cp_num: %s, resist: %s, path: %s"\
-          %(exp_sys,name,tag,cp_num,resist,path)
+    records.append({"exp_sys": exp_sys, "name": name, "tag": tag,
+           "cp_num": cp_num, "resist": resist, "path": path})
 cursor.close()
 cnx.close()

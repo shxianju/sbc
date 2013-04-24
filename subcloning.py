@@ -22,8 +22,26 @@ def check_seq(ins_seq):
 
 
 if not form:
+    import mysql.connector
+    config = {
+        'user': 'root',
+        'password': '123',
+        'host': '127.0.0.1',
+        'database': 'test',
+        'raise_on_warnings': True,
+        }
+    cnx = mysql.connector.connect(**config)
+    cursor = cnx.cursor()
+    query = ("SELECT exp_sys,name,tag,cp_num,resist,path FROM test_vector ")
+    cursor.execute(query)
+    records=[]
+    for (exp_sys,name,tag,cp_num,resist,path) in cursor:
+        records.append({"exp_sys": exp_sys, "name": name, "tag": tag,
+                        "cp_num": cp_num, "resist": resist, "path": path})
+    cursor.close()
+    cnx.close()
     template=env.get_template("index.html")
-    print template.render()
+    print template.render(records=records)
 elif form.has_key("goto_modification1"):
     template=env.get_template("modification.html")
     print template.render()
