@@ -1,7 +1,7 @@
 #!/usr/bin/python
 __author__ = 'xia'
 from jinja2 import Template,Environment,PackageLoader
-import cgi,cgitb,re
+import cgi,cgitb,re,os
 
 cgitb.enable()
 form=cgi.FieldStorage(keep_blank_values=True)
@@ -46,10 +46,15 @@ if not form:
     template=env.get_template("index.html")
     print template.render(records=records)
 elif form.has_key("goto_modification1"):
+    import draw_plasmid as dp
     vector_path=form["vector"].value
     print vector_path
+    vector_um=dp.plasmid(vector_path,out_path="./tmp_fig/")
+    open("./"+"test.txt","w").write("abc")
+    vector_um.organize()
+    vector_um_path= vector_um.draw()#this function returns the path of figure
     template=env.get_template("modification.html")
-    print template.render()
+    print template.render(vector_path=vector_um_path)
 elif form.has_key("goto_report"):
     template=env.get_template("report.html")
     print template.render()
