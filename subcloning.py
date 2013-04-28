@@ -19,9 +19,7 @@ def check_seq(ins_seq):
         return "Please input your CDS region, which means the length of your sequence should be multiple of 3."
     else:
         return "ok result"#pass
-
-
-if not form:
+def vector_in_db():
     import mysql.connector
     config = {
         'user': 'root',
@@ -36,13 +34,20 @@ if not form:
     cursor.execute(query)
     records=[]
     for (exp_sys,name,tag,cp_num,resist,path) in cursor:
-        records.append({"exp_sys": exp_sys, "name": name, "tag": tag,
-                        "cp_num": cp_num, "resist": resist, "path": path})
+        records.append({"exp_sys": exp_sys, "name": name, "tag": tag.lower(),
+                        "cp_num": cp_num, "resist": resist.lower(), "path": path})
     cursor.close()
     cnx.close()
+    return records
+
+
+if not form:
+    records=vector_in_db()
     template=env.get_template("index.html")
     print template.render(records=records)
 elif form.has_key("goto_modification1"):
+    vector_path=form["vector"].value
+    print vector_path
     template=env.get_template("modification.html")
     print template.render()
 elif form.has_key("goto_report"):

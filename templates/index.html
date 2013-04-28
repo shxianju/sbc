@@ -7,6 +7,12 @@
     <title>Subcloning DEMO</title>
     <script type="text/javascript">
         $(document).ready(function(){
+            $("#5re").change(function(){
+                $("#5utr").val($(this).val());
+            });
+            $("#3re").change(function(){
+                $("#3utr").val($(this).val());
+            });
             $.fn.change_sbox = function() {
                 var $exp_sys_value=$("#exp_sys :selected").attr("value");
                 var $cp_num_value=$("#cp_num :selected").attr("value");
@@ -154,6 +160,7 @@
                             {% for record in records %}
                             <option exp_sys="{{ record['exp_sys'] }}" tag="{{ record['tag'] }}"
                                     cp_num="{{ record['cp_num'] }}" resist="{{ record['resist'] }}"
+                                    value="{{record['path']}}"
                                     >{{ record['name'] }}</option>
                             {% endfor %}
                             <option value="" separator="T">----Archived Vectors----</option>
@@ -191,10 +198,10 @@
                     5' RE name:
                 </td>
                 <td>
-                    <div class="DivSel SelectWidth">
+                    <div class="DivSel SelectWidth" name="re_select">
                         <select id=5re name=5re>
-                            <option value="na">Not selected</option>
-                            <option value="ecori">EcoRI:AG|GCCT</option>
+                            <option value="">Not selected</option>
+                            <option value="AGGCCT">EcoRI:AG|GCCT</option>
                         </select>
                     </div>
                 </td>
@@ -202,10 +209,10 @@
                     3' RE name:
                 </td>
                 <td>
-                    <div class="DivSel SelectWidth">
+                    <div class="DivSel SelectWidth" name="re_select">
                         <select id=3re name=3re>
-                            <option value="na">Not selected</option>
-                            <option value="ecori">EcoRI:AG|GCCT</option>
+                            <option value="">Not selected</option>
+                            <option value="AGGCCT">EcoRI:AG|GCCT</option>
                         </select>
                     </div>
                 </td>
