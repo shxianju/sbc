@@ -23,6 +23,11 @@ TABLES['test_vector'] = (
 
 cnx = mysql.connector.connect(**config)
 cursor = cnx.cursor()
+try:
+    cursor.execute("drop table `test`.`test_vector`;")
+except mysql.connector.Error as err:
+    print "Error",
+    print(str(err))
 for name, ddl in TABLES.items():
     try:
         print("Creating table {}: ".format(name))
@@ -36,18 +41,30 @@ add_seq = ("INSERT INTO test_vector "
                 "(exp_sys, name, tag, cp_num, resist, path)"
                 "VALUES (%s, %s, %s, %s, %s,%s)")
 files_path="./PlasmidData/tmp/"
+tag_list="myc|his".split("|")
+resist_list="amp|neo|kan|zeo|hygro".split("|")
+
 for path in os.listdir(files_path):
+    if not re.search(r"\.gb$",path): continue #skip if the file is not .gb file
     name= path.strip(".gb")
     path= files_path+path
-    tag_match=re.search(r"(myc|his)",name,re.I)
-    if tag_match:
-        tag=tag_match.group(1)
-        print tag
+
+    this_tag=[]
+    for element in tag_list:
+        tag_match=re.search(element,name,re.I)
+        if tag_match:
+            this_tag.append(tag_match.group(0).lower())
+    if this_tag:
+        tag=" ".join(this_tag)
     else:tag="no_tag"
-    resist_match=re.search(r"(amp|neo|kan)",name,re.I)
-    if resist_match:
-        resist=resist_match.group(1)
-        print resist
+
+    this_resist=[]
+    for element in resist_list:
+        resist_match=re.search(element,name,re.I)
+        if resist_match:
+            this_resist.append(resist_match.group(0).lower())
+    if this_resist:
+        resist=" ".join(this_resist)
     else: resist="no_resist"
     data=("e_coli",name,tag, "high",resist,path)
     cursor = cnx.cursor()

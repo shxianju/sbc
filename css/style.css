@@ -56,7 +56,17 @@
         .SelectWidth{
             width:185px;
         }
-		select {
+        .tag_name{
+            background:white;
+            border: 1px solid #000;
+            width: 180px
+        }
+        .tag_protease{
+            background:white;
+            border: 1px solid #000;
+            width: 180px
+        }
+		select.sel{
 			position:relative;
 			top:4px;
 			background:white;

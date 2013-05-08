@@ -1,0 +1,46 @@
+{% extends "modification.html" %}
+{% block head %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#plasmid_fig").imageLens({
+            lensSize: 200
+        });
+    });
+</script>
+{% endblock %}
+
+{% block body %}
+<div class="surrounding" id="tag_sub" style="border-style:dashed;">
+    Do you want to add tags:<br>
+
+                <span id=tag_5> before 5' end of the insertion with tag
+
+                        <select id=tag_5_val name=tag_5_val class="tag_name">
+                            <option value="none">no tag</option>
+                            <option value="6xHis:ATCATCATCATCATCATC">6 His</option>
+                        </select>
+                    and protease
+                        <select id=tag_5_protease class="tag_protease" name=tag_5_protease>
+                            <option value="none">no protease</option>
+                            <option value="TTTTTTTTTTTT">TEV protease</option>
+                        </select>
+
+                </span>
+
+
+    <br>OR<br>
+                <span id=tag_3>after 3' end of the insertion with protease
+                        <select id=tag_3_protease class="tag_protease" name=tag_3_protease>
+                            <option value="none">no protease</option>
+                            <option value="TTTTTTTTTTTT">TEV protease</option>
+                        </select>
+                    and tag
+                        <select id=tag_3_val name=tag_3_val class="tag_name">
+                            <option value="none">no tag</option>
+                            <option value="6xHis:ATCATCATCATCATCATC">6 His</option>
+                        </select>
+                </span>
+
+    <br>
+</div>
+{% endblock %}

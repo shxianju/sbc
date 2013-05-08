@@ -8,10 +8,10 @@
     <script type="text/javascript">
         $(document).ready(function(){
             $("#5re").change(function(){
-                $("#5utr").val($(this).val());
+                $("#5utr").val($(this).val().replace("\|","").split(":")[1]);
             });
             $("#3re").change(function(){
-                $("#3utr").val($(this).val());
+                $("#3utr").val($(this).val().replace("\|","").split(":")[1]);
             });
             $.fn.change_sbox = function() {
                 var $exp_sys_value=$("#exp_sys :selected").attr("value");
@@ -31,27 +31,29 @@
                     $('#vector option[cp_num="na"]').show();
                 }
                 if ($resist_value != "na") {
-                    $('#vector option[resist!="' + $resist_value + '"]').hide();
+//                    $('#vector option[resist!="' + $resist_value + '"]').hide();
+                    $('#vector option:not(#vector option[resist~="' + $resist_value + '"])').hide();
                     $('#vector option[ separator="T"]').show();
                     $('#vector option[resist="na"]').show();
                 }
                 if ($tag_value != "na") {
-                    $('#vector option[tag!="' + $tag_value + '"]').hide();
+//                    $('#vector option[tag!="' + $tag_value + '"]').hide();
+                    $('#vector option:not(#vector option[tag~="' + $tag_value + '"])').hide();
                     $('#vector option[ separator="T"]').show();
                     $('#vector option[tag="na"]').show();
                 }
             }
             $.fn.change_sbox();
-            $("#exp_sys option").click(function(){
+            $("#exp_sys").change(function(){
                 $.fn.change_sbox();
             });
-            $("#cp_num option").click(function(){
+            $("#cp_num").change(function(){
                 $.fn.change_sbox();
             });
-            $("#resist option").click(function(){
+            $("#resist").change(function(){
                 $.fn.change_sbox();
             });
-            $("#tag option").click(function(){
+            $("#tag").change(function(){
                 $.fn.change_sbox();
             });
             $(".button[value=Reset]").click(function(){
@@ -87,7 +89,7 @@
                 </td>
                 <td>
                     <div class=DivSel>
-                        <select id=exp_sys name=exp_sys>
+                        <select id=exp_sys name=exp_sys class="sel">
                             <option value="na">Not selected</option>
                             <option value="e_coli">E coli</option>
                             <option value="yeast">Yeast</option>
@@ -100,7 +102,7 @@
                 </td>
                 <td>
                     <div class=DivSel>
-                        <select id=cp_num name=cp_num>
+                        <select id=cp_num name=cp_num class="sel">
                             <option value="na">Not selected</option>
                             <option value="high">High</option>
                             <option value="low">Low</option>
@@ -114,7 +116,7 @@
                 </td>
                 <td>
                     <div class=DivSel>
-                        <select id=tag name=tag>
+                        <select id=tag name=tag class="sel">
                             <option value="na">Not selected</option>
                             <option value="myc">Myc</option>
                             <option value="his">His</option>
@@ -128,7 +130,7 @@
                 </td>
                 <td>
                     <div class=DivSel>
-                        <select id=resist name=resist>
+                        <select id=resist name=resist class="sel">
                             <option value="na">Not selected</option>
                             <option value="neo">Neo</option>
                             <option value="kan">Kan</option>
@@ -142,7 +144,7 @@
                 <td>Vector:</td>
                 <td>
                     <div class=DivSel>
-                        <select id=vector name=vector>
+                        <select id=vector name=vector class="sel">
                             <option value="na" exp_sys="na" tag="na" cp_num="na" resist="na">
                                 Not selected
                             </option>
@@ -199,9 +201,9 @@
                 </td>
                 <td>
                     <div class="DivSel SelectWidth" name="re_select">
-                        <select id=5re name=5re>
+                        <select id=5re name=5re class="sel">
                             <option value="">Not selected</option>
-                            <option value="AGGCCT">EcoRI:AG|GCCT</option>
+                            <option value="EcoRI:AG|GCCT">EcoRI:AG|GCCT</option>
                         </select>
                     </div>
                 </td>
@@ -210,9 +212,9 @@
                 </td>
                 <td>
                     <div class="DivSel SelectWidth" name="re_select">
-                        <select id=3re name=3re>
+                        <select id=3re name=3re class="sel">
                             <option value="">Not selected</option>
-                            <option value="AGGCCT">EcoRI:AG|GCCT</option>
+                            <option value="EcoRI:AG|GCCT">EcoRI:AG|GCCT</option>
                         </select>
                     </div>
                 </td>
@@ -228,7 +230,7 @@
                     <span title="Input the your 3' untranslated region sequence">3' UTR sequence: </span>
                 </td>
                 <td>
-                    <input type="text" id="3utr"  name="5utr" size=20 value="">
+                    <input type="text" id="3utr"  name="3utr" size=20 value="">
                 </td>
             </tr>
         </table>
@@ -261,7 +263,7 @@
         </script>
         <p id="test" style="color: red">check msg goes here</p><br>
         <input class="button" type="button" value="Check" id="check">
-        <input class="button" type="submit" value="Start" name="goto_modification1" >
+        <input class="button" type="submit" value="Start" name="goto_modification" >
         <input class="button" type=reset value="Reset" >
 
     </form>

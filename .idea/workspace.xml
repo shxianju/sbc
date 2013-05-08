@@ -2,10 +2,34 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ce6bf86a-1373-4d7b-a4c1-79757f7c21a6" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/draw_plasmid_v1_1.py" afterPath="$PROJECT_DIR$/draw_plasmid.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pics/error.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/advance_step.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/report_error.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/review_step.html" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PlasmidData/tmp/pBR322.gb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PlasmidData/tmp/pCR-XL-TOPO.gb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PlasmidData/tmp/pCR2.1-TOPO.gb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PlasmidData/tmp/pET-11c.gb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PlasmidData/tmp/pET-19b.gb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PlasmidData/tmp/pET-28c(+).gb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PlasmidData/tmp/pET-29b(+).gb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PlasmidData/tmp/pET-29c(+).gb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PlasmidData/tmp/pET-31b(+).gb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PlasmidData/tmp/pET-3b.gb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PlasmidData/tmp/pET-9b.gb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PlasmidData/tmp/pET-9c.gb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PlasmidData/tmp/pLenti6 V5-DEST.gb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PlasmidData/tmp/pLenti6.3 TO V5-DEST.gb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PlasmidData/tmp/test.gb" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/style.css" afterPath="$PROJECT_DIR$/css/style.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/draw_plasmid.py" afterPath="$PROJECT_DIR$/draw_plasmid.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/init_db.py" afterPath="$PROJECT_DIR$/init_db.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/subcloning.py" afterPath="$PROJECT_DIR$/subcloning.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/modification.html" afterPath="$PROJECT_DIR$/templates/modification.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/mutagenesis.html" afterPath="$PROJECT_DIR$/templates/mutagenesis.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/report.html" afterPath="$PROJECT_DIR$/templates/report.html" />
     </list>
     <ignored path="subcloning_v0_2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,47 +49,53 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/index.html">
+      <file leaf-file-name="draw_plasmid.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/draw_plasmid.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="162" column="57" selection-start="7403" selection-end="7403" vertical-scroll-proportion="-15.125">
+            <state line="59" column="57" selection-start="2095" selection-end="2111" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="report.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/report.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="35" column="12" selection-start="1404" selection-end="1499" vertical-scroll-proportion="-3.6790123">
               <folding>
-                <element signature="e#666#2199#0" expanded="false" />
-                <element signature="e#2281#2332#0" expanded="false" />
-                <element signature="e#2383#2434#0" expanded="false" />
-                <element signature="e#2485#2536#0" expanded="false" />
-                <element signature="e#2584#2635#0" expanded="false" />
-                <element signature="e#2692#2743#0" expanded="false" />
-                <element signature="e#2810#3189#0" expanded="false" />
-                <element signature="tag#center#0;tag#form#0;tag#div#0;tag#body#0;tag#html#0" expanded="false" />
+                <element signature="n#style#0;n#input#6;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ajax_test.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/ajax_test.py">
+      <file leaf-file-name="report_error.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/report_error.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="35" selection-start="216" selection-end="216" vertical-scroll-proportion="0.0">
+            <state line="1" column="18" selection-start="46" selection-end="46" vertical-scroll-proportion="-0.625">
+              <folding>
+                <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/css/style.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="68" column="14" selection-start="1770" selection-end="1770" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ajax_test.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/ajax_test.html">
+      <file leaf-file-name="modification.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/modification.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="67" selection-start="501" selection-end="501" vertical-scroll-proportion="-6.875">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="init_db.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/init_db.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="54" column="20" selection-start="1627" selection-end="1636" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="11" column="37" selection-start="654" selection-end="683" vertical-scroll-proportion="-6.875">
+              <folding>
+                <element signature="n#style#0;n#div#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -73,7 +103,7 @@
       <file leaf-file-name="subcloning.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/subcloning.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="56" column="53" selection-start="2044" selection-end="2044" vertical-scroll-proportion="0.0">
+            <state line="44" column="56" selection-start="1578" selection-end="1584" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#37#90#0" expanded="true" />
               </folding>
@@ -81,50 +111,50 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="draw_plasmid.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/draw_plasmid.py">
+      <file leaf-file-name="mutagenesis.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/mutagenesis.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="310" column="35" selection-start="17810" selection-end="17810" vertical-scroll-proportion="-12.017544">
+            <state line="66" column="102" selection-start="3552" selection-end="3552" vertical-scroll-proportion="-29.916666">
               <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="hw.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/hw.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="modification.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/templates/modification.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="68" column="102" selection-start="3507" selection-end="3507" vertical-scroll-proportion="0.9917355">
-              <folding>
+                <marker date="1368013746889" expanded="true" signature="1628:1637" placeholder="..." />
+                <marker date="1368013746889" expanded="true" signature="1717:1726" placeholder="..." />
+                <marker date="1368013746889" expanded="true" signature="1942:1951" placeholder="..." />
+                <marker date="1368013746889" expanded="true" signature="2031:2040" placeholder="..." />
+                <element signature="n#style#0;n#div#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#0;n#p#0;n#div#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#1;n#p#0;n#div#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#0;n#div#1;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#1;n#div#1;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#2;n#div#1;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#input#3;n#div#1;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="db_test.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/db_test.py">
+      <file leaf-file-name="review_step.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/review_step.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="24" selection-start="120" selection-end="120" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="33" vertical-scroll-proportion="-0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="advance_step.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/advance_step.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="39" column="45" selection-start="1596" selection-end="1596" vertical-scroll-proportion="-24.375">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="75" selection-start="667" selection-end="667" vertical-scroll-proportion="0.2555701">
               <folding />
             </state>
           </provider>
@@ -141,22 +171,28 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/templates/modification.html" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/subcloning.py" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/test/tt.html" />
-        <option value="$PROJECT_DIR$/tools/check.py" />
-        <option value="$PROJECT_DIR$/test/ajax_test.py" />
         <option value="$PROJECT_DIR$/test/ajax_test.html" />
-        <option value="$PROJECT_DIR$/init_db.py" />
         <option value="$PROJECT_DIR$/test/db_test.py" />
-        <option value="$PROJECT_DIR$/templates/index.html" />
         <option value="$PROJECT_DIR$/draw_plasmid_v1_2.py" />
-        <option value="$PROJECT_DIR$/draw_plasmid.py" />
-        <option value="$PROJECT_DIR$/subcloning.py" />
+        <option value="$PROJECT_DIR$/init_db.py" />
+        <option value="$PROJECT_DIR$/js/jquery.imageLens.js" />
+        <option value="$PROJECT_DIR$/templates/insertion_1st_step.html" />
+        <option value="$PROJECT_DIR$/templates/review_step.html" />
         <option value="$PROJECT_DIR$/templates/modification.html" />
+        <option value="$PROJECT_DIR$/css/style.css" />
+        <option value="$PROJECT_DIR$/templates/advance_step.html" />
+        <option value="$PROJECT_DIR$/templates/index.html" />
+        <option value="$PROJECT_DIR$/draw_plasmid.py" />
+        <option value="$PROJECT_DIR$/templates/report_error.html" />
+        <option value="$PROJECT_DIR$/templates/report.html" />
+        <option value="$PROJECT_DIR$/subcloning.py" />
+        <option value="$PROJECT_DIR$/templates/mutagenesis.html" />
       </list>
     </option>
   </component>
@@ -191,7 +227,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -262,20 +297,53 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="subcloning_v0_2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="subcloning_v0_2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="subcloning_v0_2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="subcloning_v0_2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="PlasmidData" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="options.lastSelected" value="Errors" />
     <property name="recentsLimit" value="5" />
-    <property name="restartRequiresConfirmation" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/test/db_test.py" />
+    <property name="restartRequiresConfirmation" value="true" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
+    <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -290,7 +358,7 @@
       <recent name="$PROJECT_DIR$/" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.db_test">
+  <component name="RunManager" selected="Python.init_db">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -438,28 +506,32 @@
       <created>1367127382325</created>
       <updated>1367127382325</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="xia add figure display">
+      <created>1367139950774</created>
+      <updated>1367139950774</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="0" width="1282" height="994" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3293979" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293979" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293979" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27633712" sideWeight="0.67060214" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29092383" sideWeight="0.67060214" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293979" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293979" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1381346" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293979" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -500,7 +572,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="xia add db, add some js, add unmodified vector_drawer" />
+    <option name="LAST_COMMIT_MESSAGE" value="xia add figure display" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -518,146 +590,132 @@
     <MESSAGE value="xia ban" />
     <MESSAGE value="xia ban2" />
     <MESSAGE value="xia add db, add some js, add unmodified vector_drawer" />
+    <MESSAGE value="xia add figure display" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="4" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/templates/modification.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="n#style#0;n#div#1;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/subcloning.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#37#90#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="53" selection-start="1013" selection-end="1013" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#666#2199#0" expanded="false" />
-            <element signature="e#2281#2332#0" expanded="false" />
-            <element signature="e#2383#2434#0" expanded="false" />
-            <element signature="e#2485#2536#0" expanded="false" />
-            <element signature="e#2584#2635#0" expanded="false" />
-            <element signature="e#2692#2743#0" expanded="false" />
-            <element signature="e#2810#3189#0" expanded="false" />
-            <element signature="tag#center#0;tag#form#0;tag#div#0;tag#body#0;tag#html#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/tt.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="10" selection-start="10" selection-end="10" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tools/check.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../kp/我的应用/code/project/rest_api_svn/unittest_business.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/init_db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="20" selection-start="1627" selection-end="1636" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/ajax_test.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="67" selection-start="501" selection-end="501" vertical-scroll-proportion="-6.875">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/ajax_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="35" selection-start="216" selection-end="216" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="66" column="17" selection-start="1968" selection-end="1968" vertical-scroll-proportion="1.1015326" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/db_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="24" selection-start="120" selection-end="120" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="5" column="24" selection-start="120" selection-end="120" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test.py">
+    <entry file="file://$PROJECT_DIR$/test/ajax_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="8" column="35" selection-start="216" selection-end="216" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/index.html">
+    <entry file="file://$PROJECT_DIR$/test/ajax_test.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="162" column="57" selection-start="7403" selection-end="7403" vertical-scroll-proportion="-15.125">
-          <folding>
-            <element signature="e#666#2199#0" expanded="false" />
-            <element signature="e#2281#2332#0" expanded="false" />
-            <element signature="e#2383#2434#0" expanded="false" />
-            <element signature="e#2485#2536#0" expanded="false" />
-            <element signature="e#2584#2635#0" expanded="false" />
-            <element signature="e#2692#2743#0" expanded="false" />
-            <element signature="e#2810#3189#0" expanded="false" />
-            <element signature="tag#center#0;tag#form#0;tag#div#0;tag#body#0;tag#html#0" expanded="false" />
-          </folding>
-        </state>
+        <state line="11" column="67" selection-start="501" selection-end="501" vertical-scroll-proportion="-6.875" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/jquery.imageLens.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="103" selection-start="2242" selection-end="2242" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/hw.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="68" column="14" selection-start="1770" selection-end="1770" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/draw_plasmid.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="310" column="35" selection-start="17810" selection-end="17810" vertical-scroll-proportion="-12.017544">
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
+        <state line="59" column="57" selection-start="2095" selection-end="2111" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/subcloning.py">
+    <entry file="file://$PROJECT_DIR$/templates/advance_step.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="53" selection-start="2044" selection-end="2044" vertical-scroll-proportion="0.0">
+        <state line="39" column="45" selection-start="1596" selection-end="1596" vertical-scroll-proportion="-24.375">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/report_error.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="18" selection-start="46" selection-end="46" vertical-scroll-proportion="-0.625">
           <folding>
-            <element signature="e#37#90#0" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/modification.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="102" selection-start="3507" selection-end="3507" vertical-scroll-proportion="0.9917355">
+        <state line="11" column="37" selection-start="654" selection-end="683" vertical-scroll-proportion="-6.875">
           <folding>
-            <element signature="n#style#0;n#div#1;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/subcloning.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="56" selection-start="1578" selection-end="1584" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#37#90#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/review_step.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="33" vertical-scroll-proportion="-0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/report.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="12" selection-start="1404" selection-end="1499" vertical-scroll-proportion="-3.6790123">
+          <folding>
+            <element signature="n#style#0;n#input#6;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/mutagenesis.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="66" column="102" selection-start="3552" selection-end="3552" vertical-scroll-proportion="-29.916666">
+          <folding>
+            <marker date="1368013746889" expanded="true" signature="1628:1637" placeholder="..." />
+            <marker date="1368013746889" expanded="true" signature="1717:1726" placeholder="..." />
+            <marker date="1368013746889" expanded="true" signature="1942:1951" placeholder="..." />
+            <marker date="1368013746889" expanded="true" signature="2031:2040" placeholder="..." />
+            <element signature="n#style#0;n#div#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#p#0;n#div#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#1;n#p#0;n#div#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#div#1;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#1;n#div#1;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#2;n#div#1;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#3;n#div#1;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="75" selection-start="667" selection-end="667" vertical-scroll-proportion="0.2555701">
+          <folding />
         </state>
       </provider>
     </entry>

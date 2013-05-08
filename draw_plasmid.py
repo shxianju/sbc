@@ -1,4 +1,4 @@
-import re
+import re,Image
 import matplotlib.pyplot as plt
 from matplotlib.patches import Wedge, Polygon, Circle
 import matplotlib.lines as mlines
@@ -11,6 +11,24 @@ import time
 from os import remove
 #sss=time.time()
 __version__="v_1_2"
+def deg_pattern(seq,change_slash=True):
+    Deg_nt=dict(A="A",T="T",G="G",C="C",
+        R="[AG]",Y="[CT]",M="[AC]",K="[GT]",
+        S="[GC]",W="[AT]",H="[ATC]",B="[GTC]",
+        V="[GAC]",D="[GAT]",N="[AGCT]")
+    pattern=""
+    for i in seq:
+        if not i in Deg_nt.keys() and i!="|" and i!="\\":
+            raise ValueError("%s in %s is not a valid nt codon"%(i,seq))
+        elif i=="|":
+            if change_slash:
+                pattern += "\|"
+            else:
+                pattern += "|"
+        else:
+            pattern += Deg_nt[i]
+    return pattern
+
 class plasmid():
     n=0
     annotate_size=6.#font size of annotation
@@ -39,7 +57,7 @@ class plasmid():
                  BmeT110I="CY'CGRG",BmtI="GCTAG'C",Bpu10I="CC'TNAGC",
                  BsoBI="C'YCGRG",BspDI="AT'CGAT",BspEI="T'CCGGA",
                  BspQI="",BsrBI="CCG'CTC",Bsu36I="CC'TNAGG",
-                 BtgZI="",ClaI="AT'CGAT",Eco53kI="GAG'CTC",
+                 BtgZI="",ClaI="AT'CGAT",EcoRI="G'AATTC",Eco53kI="GAG'CTC",
                  EcoNI="CCTNN'NNNAGG",EcoRV="GAT'ATC",FspI="TGC'GCA",
                  HpaI="GTT'AAC",KasI="G'GCGCC",KpnI="GGTAC'C",
                  NarI="GG'CGCC",NheI="G'CTAGC",NotI="GC'GGCCGC",
@@ -55,11 +73,12 @@ class plasmid():
     #            2:[anno_xpad,0+anno_ypad+coord_diff,'right',1],
     #            3:[1-anno_xpad,0+anno_ypad+coord_diff,'left',1]} #coordinate list of annotation in each sector    
 
-    def __init__(self,file_name="./test.gb",construct_name="",out_path=""):
+    def __init__(self,file_name="./test.gb",construct_name="",out_path="",step_name="goto_modification"):
         self.file_name=file_name
         self.record = SeqIO.read(file_name, "genbank")
         self.whole_len=len(self.record)
         self.out_path=out_path
+        self.step_name=step_name
         for etype in self.etype_list:
             exec("self.%sList=[]"%etype)
         self.used_RE=[]
@@ -92,6 +111,7 @@ class plasmid():
 #        line = mlines.Line2D([self.polar(mid_theta,radius=self.c_radius+.5*self.block_width)[0],1.] ,
 #                             [self.polar(mid_theta,radius=self.c_radius+.5*self.block_width)[1],0], lw=1., alpha=0.6,color=color)
 #        exec("self."+etype+"List.append(line)")
+
     def append_annotation(self,mid_theta,text,etype):
         if mid_theta in self.anno_dict:
             if (text,etype) in self.anno_dict[mid_theta]:
@@ -100,6 +120,7 @@ class plasmid():
                 self.anno_dict[mid_theta].append((text,etype))
         else:
             self.anno_dict[mid_theta]=[(text,etype)]
+
     def draw_annotations(self):
         anno_sorted_list=[x for x in sorted(self.anno_dict.keys(),reverse=True) if int(x/90)==0]+\
                           [x for x in sorted(self.anno_dict.keys(),reverse=False) if int(x/90)==1]+\
@@ -185,7 +206,34 @@ class plasmid():
     def polar(self,theta,radius=0.25):
         return self.c_center[0]+radius*cos(theta/180.*pi),self.c_center[1]+radius*sin(theta/180.*pi)
     def mid(self,start_theta,end_theta):
-        return (end_theta+(start_theta-end_theta)%360/2.)%360		
+        return (end_theta+(start_theta-end_theta)%360/2.)%360
+    def is_tag(self,feature):
+        start=int(str(feature.location.start))
+        end=int(str(feature.location.end))
+        if feature.type=='CDS' and feature.qualifiers.has_key("product")\
+            and feature.qualifiers.has_key("note"): #tag
+            if re.search(r"tag",feature.qualifiers["product"][0],re.I)\
+                or re.search(r"tag",feature.qualifiers["note"][0],re.I):
+                return feature.qualifiers['note'][0]
+        elif feature.type=='tag':#tag (customized tag)
+            return feature.qualifiers['note'][0]
+        elif feature.type=='CDS' and feature.qualifiers.has_key("translation"):
+            if feature.qualifiers.has_key("note") and\
+               (re.search(r"his$|^his",feature.qualifiers['note'][0],re.I) or
+                re.search(r"myc$|^myc",feature.qualifiers['note'][0],re.I) or
+                re.search(r"HA",feature.qualifiers['note'][0]) or
+                re.search(r"tag",feature.qualifiers['note'][0],re.I)):#tag
+                return feature.qualifiers['note'][0]
+        else:
+            return None
+
+    def is_insert(self,feature):
+        start=int(str(feature.location.start))
+        end=int(str(feature.location.end))
+        if feature.type=='insert':#insert
+            return feature.qualifiers['note'][0]
+        else: return None
+
     def organize(self):#rules
         self.anno_dict= {}
         self.coord_dict={0:[self.c_center[0]+self.c_radius* self.anno_ratio,self.c_center[1]-.5*self.coord_diff,'left',-1],
@@ -242,6 +290,7 @@ class plasmid():
                     start=(m.start()+1)%self.whole_len
                     end=m.end()%self.whole_len
                     self.add_RE(start,end,RE)
+
     def draw(self):
         self.fig = plt.figure(1, figsize=(self.fig_size*self.wh_ratio, self.fig_size))
         self.ax = self.fig.add_subplot(111)
@@ -254,9 +303,9 @@ class plasmid():
         plt.axis('off')
         self.c=Circle(self.c_center,radius=self.c_radius,fill=False,edgecolor="grey")
         self.ax.add_patch(self.c)
-        if len(self.construct_name)<=15:
+        if len(self.construct_name)<=14:
             name_size=self.big_size
-        elif len(self.construct_name)>15 and len(self.construct_name)<=22:
+        elif len(self.construct_name)>14 and len(self.construct_name)<=22:
             name_size=self.big_size*.7
         else:
             name_size=self.big_size*.5
@@ -277,28 +326,178 @@ class plasmid():
 
         self.ax.set_xlim(0-(self.wh_ratio-1)/2.,1.+(self.wh_ratio-1)/2.)
         self.ax.set_ylim(0,1)
-        fname=self.out_path+self.construct_name+re.sub(r"\.","",str(time.time()))+".png"
+        fname=self.out_path+self.construct_name+"_"+self.step_name+".png"
         plt.savefig(fname, bbox_inches="tight",dpi=300,pad_inches=0.)
         plt.clf()#plt.show()
         return fname
 
-    def ins_seq(self,sequence,ins_name,ins_sites,etype): #the cutpoint is after ins_sites[0] bp and after ins_sites[1] bp
+    def get_mcs(self):
+        RE_list=[]
+        tag_list=[]
+        ins_list=[]
+        mcs_seq=""
+        used_RE=[]
+        mcs_found=False
+        mcs_start=mcs_end=0
+        for feature in self.record.features:
+            f_start=int(str(feature.location.start))
+            f_end=int(str(feature.location.end))
+            if feature.qualifiers.has_key("note") and re.search(r"^mcs",feature.qualifiers["note"][0],re.I):
+                mcs=self.record[int(str(feature.location.start))-1:int(str(feature.location.end))]
+                mcs_seq=str(mcs.seq)
+                mcs_found=True
+                mcs_start=f_start
+                mcs_end=f_end
+                for RE in ["ApaI","XhoI","AvaI","BamHI","ClaI","EcoRV","HpaI","KpnI","NheI",
+            "NotI","PasI","SacI","SphI","StuI"]:#self.RE_dict:
+                    if self.RE_dict[RE]=="": continue
+                    RE_site=re.sub("'","",self.RE_dict[RE])
+                    if RE_site in used_RE: continue
+                    used_RE.append(RE_site)
+                    RE_pattern="".join([self.Deg_nt[x] for x in RE_site])
+                    for m in re.finditer(RE_pattern,str(self.record.seq)+str(self.record.seq)[:20],re.I):#+str(self.record.seq)[:10] add some to complete the RE search
+                        start=(m.start()+1)%self.whole_len
+                        end=m.end()%self.whole_len
+                        if start>=int(str(feature.location.start))-1 and end<= int(str(feature.location.end)):
+                            RE_list.append((start,end,RE,RE_site)) #(start_pos,end_pos,RE_name,RE_seq)
+            elif mcs_found and f_start>=mcs_start and f_end<=mcs_end:
+                if self.is_insert(feature):
+                    ins_list.append((f_start,f_end,self.is_insert(feature),"INSERT"))
+                elif self.is_tag(feature):
+                    tag_list.append((f_start,f_end,self.is_tag(feature),""))
+        return dict(RE_list=RE_list,mcs_seq=mcs_seq.upper(),
+            mcs_range=(mcs_start,mcs_end),tag_list=tag_list,ins_list=ins_list)
+
+    def draw_mcs(self):
+        from matplotlib.patches import Rectangle
+        mcs_dict=self.get_mcs()
+
+#        print mcs_dict
+        ax = plt.axes()#plt.gca()
+        whole_length=abs(mcs_dict["mcs_range"][1]-mcs_dict["mcs_range"][0])
+        ax.add_patch(Rectangle((.0,.95),1.,.005,color='black')) #((x,y),width,height)
+        exist_sites=[]
+        ins_left=100000
+        ins_right=1000001
+        for module in mcs_dict["ins_list"]:
+            module_color='lightgreen'
+            exist_sites.append(module[0])
+            whole_length=whole_length-(module[1]-module[0]+1)+20
+            module_width=20/float(whole_length) #minimise the length of insert
+            module_x=(module[0]-mcs_dict["mcs_range"][0])/float(whole_length)
+            ax.add_patch(Rectangle((module_x,.9), module_width, .1,color=module_color))
+            plt.text(module_x+module_width/2.,0.83,"%d:%d \n%s %s"%(module[0],module[1],module[2],module[3]),
+                fontsize=7,rotation=90)
+            ins_left=module[0]
+            ins_right=module[1]
+        sign=lambda x: (cmp(x,0)+1)/2
+        convert_pos=lambda x,left,right,ratio:x\
+                                              -sign(x-left)*(x-left)*(1-ratio)\
+                                              +sign(x-right)*(x-right)*(1-ratio)
+        for module in mcs_dict["tag_list"]:
+            module_color='magenta'
+            if module[0] in exist_sites:
+                continue
+            else: exist_sites.append(module[0])
+            #whole_length=whole_length-(module[1]-module[0]+1)+20
+            module_width=(module[1]-module[0])/float(whole_length)
+            module_x=(convert_pos(module[0]-mcs_dict["mcs_range"][0],
+                ins_left-mcs_dict["mcs_range"][0],ins_right-mcs_dict["mcs_range"][0],
+                20./(ins_right-ins_left)))/float(whole_length)
+            ax.add_patch(Rectangle((module_x,.9), module_width, .1,color=module_color))
+            plt.text(module_x+module_width/2.,0.83,"%d:%d \n%s"%(module[0],module[1],module[2]),
+                fontsize=7,rotation=90)
+
+        for module in mcs_dict["RE_list"]:
+            module_color='gray'
+            if module[0] in exist_sites:
+                continue
+            else: exist_sites.append(module[0])
+            module_width=2/float(whole_length)#abs(module[1]-module[0])/float(whole_length)
+            module_x=(convert_pos(module[0]-mcs_dict["mcs_range"][0],
+                ins_left-mcs_dict["mcs_range"][0],ins_right-mcs_dict["mcs_range"][0],
+                20./(ins_right-ins_left)))/float(whole_length)
+#            print module[:2],module_x,whole_length
+            ax.add_patch(Rectangle((module_x,.9), module_width, .1,color=module_color))
+            plt.text(module_x,0.83,"%d: %s\n%s"%(module[0],module[2],module[3]),
+                fontsize=7,rotation=90)
+        ax.xaxis.set_ticks_position('none')
+        ax.set_xticklabels([])
+        ax.yaxis.set_ticks_position('none')
+        ax.set_yticklabels([])
+        plt.axis('off')
+        #plt.savefig('before.png', bbox_inches="tight",pad_inches=0.)
+        mcs_fname=self.out_path+self.construct_name+"_mcs_i_"+self.step_name+".png"
+        plt.savefig(mcs_fname, bbox_inches="tight",pad_inches=0.)
+        plt.clf()
+        img=Image.open(mcs_fname)
+        bound = (0,0,620,160)#figure size
+        imgbox=img.crop(bound)
+        imgbox.save(mcs_fname)
+        return mcs_fname
+
+
+
+    def ins_insert(self,vec_5_site,utr_5_seq,ins_seq,utr_3_seq,vec_3_site,ins_name):
         from Bio.Alphabet import IUPAC
         from Bio.Seq import Seq
         from Bio.SeqRecord import SeqRecord
-        ins_record=SeqRecord(Seq(sequence,IUPAC.ambiguous_dna))
-        f=SeqFeature(FeatureLocation(0,len(ins_record)),type=etype)
+        ins_record=SeqRecord(Seq(utr_5_seq+ins_seq+utr_3_seq,IUPAC.ambiguous_dna))
+
+        f_i=SeqFeature(FeatureLocation(len(utr_5_seq),len(utr_5_seq)+len(ins_seq)),type="insert")
+        f_i.qualifiers["note"]=[ins_name,]
+        ins_record.features=[f_i]
+        old_name=self.record.name
+        for feature in self.record.features:
+            if feature.qualifiers.has_key("note")\
+            and re.search(r"^mcs",feature.qualifiers["note"][0],re.I):
+                mcs_start=int(str(feature.location.start))
+                mcs_end=int(str(feature.location.end))
+                mcs_qualifiers=feature.qualifiers
+        self.record=self.record[:vec_5_site]+ins_record+self.record[vec_3_site:]
+        f_mcs=SeqFeature(FeatureLocation(mcs_start,
+            vec_5_site+len(utr_5_seq+ins_seq+utr_3_seq)+mcs_end-vec_3_site),type="mcs")
+        f_mcs.qualifiers=mcs_qualifiers
+        self.record.features.append(f_mcs)
+        self.record.features=sorted(self.record.features,key=lambda x:int(str(x.location.start)))
+        self.record.name=old_name
+        self.whole_len=len(self.record)
+    def write_gb_file(self):
+        SeqIO.write(self.record,self.out_path+self.step_name+".gb","genbank")
+        return self.out_path+self.step_name+".gb"
+    def ins_tag(self,tag_seq,protease_seq,ins_name,ins_sites,side=5): #the cutpoint is after ins_sites[0] bp and after ins_sites[1] bp
+        from Bio.Alphabet import IUPAC
+        from Bio.Seq import Seq
+        from Bio.SeqRecord import SeqRecord
+        for feature in self.record.features:
+            if feature.qualifiers.has_key("note")\
+            and re.search(r"^mcs",feature.qualifiers["note"][0],re.I):
+                mcs_start=int(str(feature.location.start))
+                mcs_end=int(str(feature.location.end))
+                mcs_qualifiers=feature.qualifiers
+        if ins_sites[0]>mcs_start and ins_sites[1]<mcs_end:
+            f_mcs=SeqFeature(FeatureLocation(mcs_start,
+                mcs_end+ins_sites[0]-ins_sites[1]+len(tag_seq+protease_seq)),type="mcs")
+            f_mcs.qualifiers=mcs_qualifiers
+        if side==5:
+            ins_record=SeqRecord(Seq(tag_seq+protease_seq,IUPAC.ambiguous_dna))
+            f=SeqFeature(FeatureLocation(0,len(tag_seq)),type="tag")
+        elif side==3:
+            ins_record=SeqRecord(Seq(protease_seq+tag_seq,IUPAC.ambiguous_dna))
+            f=SeqFeature(FeatureLocation(len(protease_seq),len(protease_seq+tag_seq)),type="tag")
         f.qualifiers["note"]=[ins_name,]
         ins_record.features=[f]
         old_name=self.record.name
         self.record=self.record[:ins_sites[0]]+ins_record+self.record[ins_sites[1]:]
         self.record.name=old_name
         self.whole_len=len(self.record)
-        #record_new.annotations["data_file_division"]=record_test.annotations["data_file_division"]
-        #~ tmp_time=str(time.time())
-        #~ SeqIO.write(self.record,"test_%s.gb"%tmp_time,"genbank")
-        #~ self.__init__("test_%s.gb"%tmp_time,old_name)
-        #~ remove("test_%s.gb"%tmp_time)
+        self.record.features.append(f_mcs)
+        self.record.features=sorted(self.record.features,key=lambda x:int(str(x.location.start)))
+#        record_new.annotations["data_file_division"]=record_test.annotations["data_file_division"]
+#        ~ tmp_time=str(time.time())
+#        ~ SeqIO.write(self.record,"test_%s.gb"%tmp_time,"genbank")
+#        ~ self.__init__("test_%s.gb"%tmp_time,old_name)
+#        ~ remove("test_%s.gb"%tmp_time)
     def test(self):
         self.whole_len=4000
         self.add_RE(250,255,"RE1")
@@ -322,7 +521,7 @@ class plasmid():
         self.draw()
 def main():
     A=plasmid("test.gb")
-    A.ins_seq("AAGCTTA"*500,"test tag",[1000,1025],"insert")
+    #A.ins_seq("AAGCTTA"*500,"test tag",[1000,1025],"insert")
     A.organize()
     A.draw()
     exit()
