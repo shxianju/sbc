@@ -2,7 +2,7 @@
 __author__ = 'xia'
 from jinja2 import Template,Environment,PackageLoader
 import cgi,cgitb,re,os,time,json
-DEBUG=1
+DEBUG=0
 bases = ['t', 'c', 'a', 'g']
 codons = [a+b+c for a in bases for b in bases for c in bases]
 amino_acids = 'FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG'
@@ -28,10 +28,54 @@ hydrophobicity_table=dict(
         N="#0c00f3",K="#0000ff",
         R="#0000ff")
 hydrophobicity_table["*"]="#000000"
+RE_dict=dict(Acc65I="G'GTACC",AflIII="A'CRYGT",ApaI="GGGCC'C",
+    AseI="AT'TAAT",AvaI="C'YCGRG",AvrII="C'CTAGG",
+    BamHI="G'GATCC",BbeI="GGCGC'C",BlpI="GC'TNAGC",
+    BmeT110I="CY'CGRG",BmtI="GCTAG'C",Bpu10I="CC'TNAGC",
+    BsoBI="C'YCGRG",BspDI="AT'CGAT",BspEI="T'CCGGA",
+    BspQI="",BsrBI="CCG'CTC",Bsu36I="CC'TNAGG",
+    BtgZI="",ClaI="AT'CGAT",Eco53kI="GAG'CTC",
+    EcoNI="CCTNN'NNNAGG",EcoRI="G'AATTC",
+    EcoRV="GAT'ATC",FspI="TGC'GCA",
+    HpaI="GTT'AAC",KasI="G'GCGCC",KpnI="GGTAC'C",
+    NarI="GG'CGCC",NheI="G'CTAGC",NotI="GC'GGCCGC",
+    PaeR7I="C'TCGAG",PasI="CC'CWGGG",PciI="A'CATGT",
+    PflFI="GACN'NNGTC",PspOMI="G'GGCCC",PstI="CTGCA'G",
+    PvuI="CGAT'CG",SacI="GAGCT'C",SapI="",
+    ScaI="AGT'ACT",SfoI="GGC'GCC",SphI="GCATG'C",
+    SspI="AAT'ATT",StuI="AGG'CCT",TliI="C'TGGAG",
+    Tth111I="GACN'NNGTC",XcmI="CCANNNNN'NNNNTGG",XhoI="C'TCGAG")
+RE_dict_simple=dict(Acc65I="G'GTACC",ApaI="GGGCC'C",
+    AseI="AT'TAAT",AvrII="C'CTAGG",
+    BamHI="G'GATCC",BbeI="GGCGC'C",BmtI="GCTAG'C",
+    BspDI="AT'CGAT",BspEI="T'CCGGA",
+    BsrBI="CCG'CTC",ClaI="AT'CGAT",
+    Eco53kI="GAG'CTC",EcoRI="G'AATTC",
+    EcoRV="GAT'ATC",FspI="TGC'GCA",
+    HpaI="GTT'AAC",KasI="G'GCGCC",KpnI="GGTAC'C",
+    NarI="GG'CGCC",NheI="G'CTAGC",NotI="GC'GGCCGC",
+    PaeR7I="C'TCGAG",PciI="A'CATGT",
+    PspOMI="G'GGCCC",PstI="CTGCA'G",
+    PvuI="CGAT'CG",SacI="GAGCT'C",
+    ScaI="AGT'ACT",SfoI="GGC'GCC",SphI="GCATG'C",
+    SspI="AAT'ATT",StuI="AGG'CCT",TliI="C'TGGAG",XhoI="C'TCGAG") #no ambiguous nt
+
+
+
+
 cgitb.enable()
 form=cgi.FieldStorage(keep_blank_values=True)
 env=Environment(loader=PackageLoader(__name__,"templates"))
+modi_headline_list=[
+    "<span style='color:grey'>Choose insertion site</span>",
+    "<span style='color:grey'>------ Advanced modification</span>",
+    "<span style='color:grey'>------ Review your construct</span>"
+    ]
 print "Content-type: text/html\n\n"
+if DEBUG:
+    for i in form:
+        print form[i],"<br>"
+
 def translate_format(nt_seq):
     if len(nt_seq)%3 != 0:
         raise ValueError("length of the input sequence %s is not multiples of 3."%nt_seq)
@@ -50,11 +94,23 @@ def translate_format(nt_seq):
 
 
 
-def check_seq(ins_seq):
-    if ins_seq.strip()=="":
+def check_input(ins_seq,task_name,vector,ins_name,utr5,utr3):
+    if task_name.strip()=="":
+        return "Please input your task name."
+    elif vector.strip()=="na" or vector.strip()=="":
+        return "Please select your vector."
+    elif ins_name.strip()=="":
+        return "Please input the name of your inserted sequence."
+    elif ins_seq.strip()=="":
         return "Please input your insert sequence."
-    elif re.search(r"[^atgcu0-9\s]",ins_seq,re.I):
-        return "Please only input a DNA/mRNA sequence"
+    elif re.search(r"[^atgc\s]",utr5,re.I):
+        return "Please input valid DNA sequence or no sequence for 5' UTR."
+    elif re.search(r"[^atgc\s]",utr3,re.I):
+        return "Please input valid DNA sequence or no sequence for 3' UTR."
+    elif re.search(r"[^atgc0-9\s]",ins_seq,re.I):
+        return "Please only input a valid DNA sequence as the inserted sequence."
+    elif re.search(r"[^atgc0-9\s]",ins_seq,re.I):
+        return "Please only input a DNA sequence"
     true_seq=re.sub(r"[\s0-9]+","",ins_seq)
     if len(true_seq)<=60:
         return "The input sequence should be longer than 60bp"
@@ -96,6 +152,7 @@ def insert_insertion(form):
     vec_res=[re.search(r"\((.*)\)",x).group(1) for x in form.getlist("ez_txt")]
     vec_re_names=[re.search(r"(.+)\(.*\)",x).group(1) for x in form.getlist("ez_txt")]
     sign=cmp(int(vec_sites[0])+vec_res[0].index("|"),int(vec_sites[1])+vec_res[1].index("|"))
+    name_dict=eval(form.getvalue("name_dict"))
     vec_5_site=vec_sites[int(.5+sign*.5)]
     vec_5_re=vec_res[int(.5+sign*.5)]
     vec_3_site=vec_sites[1-int(.5+sign*.5)]
@@ -109,12 +166,11 @@ def insert_insertion(form):
     utr_3=ins_dict["utr_3"]
     vec_5_site,utr_5_seq,ins_seq,utr_3_seq,vec_3_site=ins_organize(vec_5_site, vec_5_re, utr_5, utr_5_re,
         ins_seq, utr_3_re, utr_3, vec_3_re, vec_3_site)
-    print "<br>here goes test ",form.getvalue("path_dict")
     path_dict=eval(form.getvalue("path_dict"))
     vector_path_gb=path_dict["vector_path_gb"]
     out_path=path_dict["out_path"]
     old_vector=dp.plasmid(vector_path_gb,out_path=out_path,step_name="after_modification")
-    old_vector.ins_insert(vec_5_site,utr_5_seq,ins_seq,utr_3_seq,vec_3_site,"ins_name")
+    old_vector.ins_insert(vec_5_site,utr_5_seq,ins_seq,utr_3_seq,vec_3_site,name_dict["ins_name"])
     modified_vector_path=old_vector.write_gb_file()#add insert to old vector and update it
     return modified_vector_path,out_path,ins_dict
 def insert_tag(form):
@@ -154,19 +210,29 @@ def reverse_complement_dna(seq):
 
 def ins_organize(vec_5_site,vec_5_re,utr_5,utr_5_re,ins_seq,
                  utr_3_re,utr_3,vec_3_re,vec_3_site):
-    vec_5_site=int(vec_5_site)+vec_5_re.index("|")
+    vec_5_site=int(vec_5_site)+vec_5_re.index("|")-1
     vec_5_sticky=get_sticky_end(vec_5_re)
-    utr_5_seq=re.search(
-        re.sub(r"\|","(",dp.deg_pattern(utr_5_re,change_slash=False)+r".*)"),
-        utr_5).group(1)
-    utr_5_sticky=get_sticky_end(utr_5_re)
 
-    utr_3_sticky=get_sticky_end(utr_3_re)
-    utr_3_seq=re.search(
-        re.sub(r"\|",")",r"(.*"+dp.deg_pattern(utr_3_re,change_slash=False)),
-        utr_3).group(1)
+    if utr_5 and utr_5_re:
+        utr_5_seq=re.search(
+            re.sub(r"\|","(",dp.deg_pattern(utr_5_re,change_slash=False)+r".*)"),
+            utr_5).group(1)
+        utr_5_sticky=get_sticky_end(utr_5_re)
+    else:
+        utr_5_seq=utr_5
+        utr_5_sticky=""
+
+    if utr_3 and utr_3_re:
+        utr_3_sticky=get_sticky_end(utr_3_re)
+        utr_3_seq=re.search(
+            re.sub(r"\|",")",r"(.*"+dp.deg_pattern(utr_3_re,change_slash=False)),
+            utr_3).group(1)
+    else:
+        utr_3_seq=utr_3
+        utr_3_sticky=""
+
     vec_3_sticky=get_sticky_end(vec_3_re)
-    vec_3_site=int(vec_3_site)+vec_3_re.index("|")
+    vec_3_site=int(vec_3_site)+vec_3_re.index("|")-1
     return vec_5_site,utr_5_seq,ins_seq,utr_3_seq,vec_3_site
 
 def report_check(form):
@@ -192,23 +258,6 @@ def report_check_res(ins_dict,path_dict):
     vector_rep_seq=str(dp.plasmid(vector_path_gb).record.seq)
     re_names=ins_dict["vec_re_names"]+\
              [ins_dict["utr_5_re_name"]]+[ins_dict["utr_3_re_name"]]
-    RE_dict=dict(Acc65I="G'GTACC",AflIII="A'CRYGT",ApaI="GGGCC'C",
-        AseI="AT'TAAT",AvaI="C'YCGRG",AvrII="C'CTAGG",
-        BamHI="G'GATCC",BbeI="GGCGC'C",BlpI="GC'TNAGC",
-        BmeT110I="CY'CGRG",BmtI="GCTAG'C",Bpu10I="CC'TNAGC",
-        BsoBI="C'YCGRG",BspDI="AT'CGAT",BspEI="T'CCGGA",
-        BspQI="",BsrBI="CCG'CTC",Bsu36I="CC'TNAGG",
-        BtgZI="",ClaI="AT'CGAT",Eco53kI="GAG'CTC",
-        EcoNI="CCTNN'NNNAGG",EcoRI="G'AATTC",
-        EcoRV="GAT'ATC",FspI="TGC'GCA",
-        HpaI="GTT'AAC",KasI="G'GCGCC",KpnI="GGTAC'C",
-        NarI="GG'CGCC",NheI="G'CTAGC",NotI="GC'GGCCGC",
-        PaeR7I="C'TCGAG",PasI="CC'CWGGG",PciI="A'CATGT",
-        PflFI="GACN'NNGTC",PspOMI="G'GGCCC",PstI="CTGCA'G",
-        PvuI="CGAT'CG",SacI="GAGCT'C",SapI="",
-        ScaI="AGT'ACT",SfoI="GGC'GCC",SphI="GCATG'C",
-        SspI="AAT'ATT",StuI="AGG'CCT",TliI="C'TGGAG",
-        Tth111I="GACN'NNGTC",XcmI="CCANNNNN'NNNNTGG",XhoI="C'TCGAG")
     repeat_list=[]#record the repeat enzymes
     for re_name in set(re_names):
         re_seq=re.sub(r"'","",RE_dict[re_name])
@@ -254,19 +303,37 @@ def report_check_start_stop_codon(ins_seq):
                 "One of your start/end codons may not be valid codon for protein expression."
 
 
+modi_headline_list=[
+    "<span style='color:#d3d3d3'>Choose insertion site</span>",
+    "<span style='color:#d3d3d3'>------ Advanced modification</span>",
+    "<span style='color:#d3d3d3'>------ Review your construct</span>"
+]
+change_headline_color=lambda text:re.sub("#d3d3d3","black",text)
+
+
+
+
 if not form:
     records=vector_in_db()
     template=env.get_template("index.html")
-    print template.render(records=records)
+    print template.render(records=records,
+        RE_list= [x+":"+re.sub(r"'","|",RE_dict_simple[x]) for x in sorted(RE_dict_simple)])
+
 elif form.has_key("goto_modification"):
     import draw_plasmid as dp
-    if DEBUG==1:print form
-    for i in form:
-        print i,form[i].value,"<br>"
-    user_name="test"
-    if form.has_key("advance"): button_name="goto_advance"
-    else:button_name="goto_review" #decide whether to go to advanced mode
+    user_name="test_user"
+    if form.has_key("advance"):
+        modi_headline=change_headline_color(modi_headline_list[0])\
+                      +modi_headline_list[1]+modi_headline_list[2]
+        button_name="goto_advance"
+    else:
+        modi_headline=change_headline_color(modi_headline_list[0])\
+                      +modi_headline_list[2]
+        button_name="goto_review" #decide whether to go to advanced mode
     vector_path=form["vector"].value
+    task_name=form.getvalue("task_name")
+    ins_name=form.getvalue("ins_name")
+    vec_name=re.search(r'.+/(.+?)\.gb$',vector_path).group(1)
     out_path="tmp/"+user_name+"___"+re.sub(r"\.","",str(time.time()))+"/"
     os.mkdir(out_path)
     vector_um=dp.plasmid(vector_path,out_path=out_path,step_name="goto_modification")#vector_um:unmodified vector
@@ -282,10 +349,27 @@ elif form.has_key("goto_modification"):
                     desc=RE_name+"("+RE_seq+")"))
     mcs_dict["mcs_ac"]=sorted(mcs_ac,key=lambda x:int(x["value"]))
     vector_um_path= vector_um.draw()#this function returns the path of figure
-    utr_5_re=form["5re"].value.split(":")[1]
-    utr_3_re=form["3re"].value.split(":")[1]
-    utr_5=form["5utr"].value
-    utr_3=form["3utr"].value
+
+    if not form["5utr"].value:
+        utr_5=""
+        utr_5_re=""
+    elif not form["5re"].value.strip():
+        utr_5=form["5utr"].value
+        utr_5_re=""
+    else:
+        utr_5=form["5utr"].value
+        utr_5_re=form["5re"].value.split(":")[1]
+
+    if not form["3utr"].value:
+        utr_3=""
+        utr_3_re=""
+    elif not form["3re"].value.strip():
+        utr_3=form["3utr"].value
+        utr_3_re=""
+    else:
+        utr_3=form["3utr"].value
+        utr_3_re=form["3re"].value.split(":")[1]
+
     ins_seq=form["ins_seq"].value
     ins_dict=dict(utr_5_re=utr_5_re,utr_5_re_name=form["5re"].value.split(":")[0],
         utr_3_re=utr_3_re,utr_3_re_name=form["3re"].value.split(":")[0],
@@ -295,15 +379,21 @@ elif form.has_key("goto_modification"):
         vector_path_gb=form["vector"].value,out_path=out_path,
         original_vector_path_gb=form["vector"].value)
     template=env.get_template("modification.html")
-    print template.render(path_dict=path_dict, button_name=button_name,
-        mcs_dict=mcs_dict,ins_dict=ins_dict)
+    print template.render(path_dict=path_dict,
+        name_dict=dict(button_name=button_name,vec_name=vec_name,task_name=task_name,ins_name=ins_name),
+        mcs_dict=mcs_dict,ins_dict=ins_dict,headline=modi_headline)
 
 elif form.has_key("goto_advance"):
     import draw_plasmid as dp
-    if DEBUG==1:print form
+    modi_headline=modi_headline_list[0]\
+                  +change_headline_color(modi_headline_list[1])\
+                  +modi_headline_list[2]
     modified_vector_path,out_path,ins_dict=insert_insertion(form)
+    name_dict=eval(form.getvalue("name_dict"))
+    name_dict["button_name"]="goto_review"
     vector_path_gb=modified_vector_path
-    vector_ins=dp.plasmid(vector_path_gb,out_path=out_path)
+    vector_ins=dp.plasmid(vector_path_gb,out_path=out_path,
+        construct_name=name_dict["vec_name"]+"---"+name_dict["ins_name"])
     mcs_dict=vector_ins.get_mcs()
     path_dict=eval(form.getvalue("path_dict"))
     mcs_path=vector_ins.draw_mcs()
@@ -315,17 +405,25 @@ elif form.has_key("goto_advance"):
     path_dict["out_path"]=out_path
     template=env.get_template("advance_step.html")
     print template.render(ins_dict=ins_dict,path_dict=path_dict,
-        button_name="goto_review",mcs_dict=mcs_dict)
+        name_dict=name_dict,mcs_dict=mcs_dict,headline=modi_headline)
 
 elif form.has_key("goto_review"):
     import draw_plasmid as dp
-    if DEBUG==1:print form
     if form.has_key("tag_5_val"):#this form come from tag page,deal with add tag method
         modified_vector_path,out_path,ins_dict=insert_tag(form)
+        modi_headline=modi_headline_list[0]\
+                    +modi_headline_list[1]\
+                    +change_headline_color(modi_headline_list[2])
     else:#this form come from modification page,deal with cut and paste method
         modified_vector_path,out_path,ins_dict=insert_insertion(form)
+        modi_headline=modi_headline_list[0]\
+                      +change_headline_color(modi_headline_list[2])
+    name_dict=eval(form.getvalue("name_dict"))
+    name_dict["button_name"]="goto_report"
     vector_path_gb=modified_vector_path
-    vector_rev=dp.plasmid(vector_path_gb,out_path=out_path)
+    vector_rev=dp.plasmid(vector_path_gb,
+        construct_name=name_dict["vec_name"]+"---"+name_dict["ins_name"],
+        out_path=out_path)
     mcs_dict=vector_rev.get_mcs()
     mcs_path=vector_rev.draw_mcs()
     vector_rev.organize()
@@ -334,12 +432,11 @@ elif form.has_key("goto_review"):
         vector_path_gb=vector_path_gb,out_path=out_path,
         original_vector_path_gb=eval(form.getvalue("path_dict"))["original_vector_path_gb"])
     template=env.get_template("review_step.html")
-    print template.render(path_dict=path_dict, button_name="goto_report",
-        mcs_dict=mcs_dict,ins_dict=ins_dict)
+    print template.render(path_dict=path_dict, name_dict=name_dict,
+        mcs_dict=mcs_dict,ins_dict=ins_dict,headline=modi_headline)
 
 
 elif form.has_key("goto_report"):
-    if DEBUG==1:print form
     path_dict=eval(form.getvalue("path_dict"))
     ins_dict=eval(form.getvalue("ins_dict"))
     check_result=report_check(form)
@@ -361,7 +458,6 @@ elif form.has_key("goto_report"):
 
 
 elif form.has_key("goto_muta"):
-    if DEBUG==1:print form
     path_dict=eval(form.getvalue("path_dict"))
     vector_path_gb=path_dict["vector_path_gb"]
     ins_dict=eval(form.getvalue("ins_dict"))
@@ -378,5 +474,21 @@ elif form.has_key("in_seq_mut"):
             target_list.append("%s: %s"%(aa,codon))
     print json.dumps({"source_list":trans_list,"target_list":target_list})
 elif form.has_key("ins_seq_check"):
-    print check_seq(form["ins_seq_check"].value)
+    ins_seq_check_dict=eval(form.getvalue("ins_seq_check"))
+    ins_seq=ins_seq_check_dict["ins_seq"]
+    task_name=ins_seq_check_dict["task_name"]
+    vector=ins_seq_check_dict["vector"]
+    ins_name=ins_seq_check_dict["ins_name"]
+    utr5=ins_seq_check_dict["5utr"]
+    utr3=ins_seq_check_dict["3utr"]
+    print check_input(ins_seq,task_name,vector,ins_name,utr5,utr3)
+elif form.has_key("vec_re_check"):
+    vec_re_check= eval(form.getvalue("vec_re_check"))
+    ez1_pos=vec_re_check["ez1_pos"]
+    ez2_pos=vec_re_check["ez2_pos"]
+    mcs_re_pos=[str(x) for x in eval(vec_re_check["mcs_re_pos"])]
+    if ez1_pos.strip() in set(mcs_re_pos) and ez2_pos.strip() in set(mcs_re_pos):
+        print "ok result"
+    else:
+        print "Please input a restriction enzyme cutting position."
 

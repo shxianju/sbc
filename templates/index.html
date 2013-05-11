@@ -56,23 +56,56 @@
             $("#tag").change(function(){
                 $.fn.change_sbox();
             });
+            $("#vector").change(function(){
+                if ($("#vector").val()==""){$("#vec_info").html("");}
+                else{
+                    var $exp_sys=$("#vector :selected").attr("exp_sys");
+                    var $cp_num=$("#vector :selected").attr("cp_num");
+                    var $tag=$("#vector :selected").attr("tag");
+                    var $resist=$("#vector :selected").attr("resist");
+                    $exp_sys=$exp_sys.replace("_"," ");
+                    $cp_num=$cp_num.replace("_"," ");
+                    $tag=$tag.replace("_"," ").replace(" tag","");
+                    $resist=$resist.replace("_"," ").replace(" resist","");
+                    if ($("#vector").val()=="na"){$("#vec_info").html("");}
+                    else {$("#vec_info").html("You have selected a <b>"+$cp_num+"</b> copy number vector in <b>"+$exp_sys
+                            +"</b> expression system, with <b>"+
+                            $tag+"</b> tag, <b>"+$resist+"</b> resistance.");}
+                }
+
+            });
             $(".button[value=Reset]").click(function(){
                 $.fn.change_sbox();
             });
-            $("input[name='gotoModification']").click(function(){
-                if ($("select#vector :selected").attr("value") == "na") {
 
-                    alert("Please select a vector!");
-                    return false;
-                }
-                else if ($("textarea").val()==""){
-                    alert("You can not leave the insert sequence box empty!");
-                    return false;
-                }
+            $("#start").click(function(){
+                $.ajax({
+                    type:"POST",
+                    async:false,
+                    url: "subcloning.py",
+                    data: "ins_seq_check={'ins_seq':'"+ $("#ins_seq").val()+
+                            "','task_name':'"+$("#task_name").val()+
+                            "','vector':'"+$("#vector").val()+
+                            "','ins_name':'"+$("#ins_name").val()+
+                            "','5utr':'"+$("#5utr").val()+
+                            "','3utr':'"+$("#3utr").val()+"'}",
+                    success: function(data){
+                        if (data.toLowerCase().indexOf("ok result") >= 0){
+                            form.submit();
+                            //$("#test").replaceWith('<p id="test" style="color: red">'+data+'</p>');
+                        }
+                        else{
+                            $("#test").html(data);
+                            //$("#test").append(data);
+                            //$("#test").replaceWith('<p id="test">'+data+'</p>');
+                        }
+                    }
+                });
+
 
             });
+            });
 
-        });
     </script>
 </head>
 <body>
@@ -149,15 +182,7 @@
                                 Not selected
                             </option>
                             <option value="" separator="T">---Genscript Vectors----</option>
-                            <option value="pBR_322" exp_sys="e_coli" tag="myc" cp_num="high" resist="neo">
-                                pBR_322_myc_coli
-                            </option>
-                            <option value="pET28" exp_sys="e_coli" tag="his" cp_num="high" resist="neo">
-                                pET28_his_coli
-                            </option>
-                            <option value="pUC" exp_sys="e_coli" tag="no_tag" cp_num="low" resist="neo">
-                                pUC_coli
-                            </option>
+
                             <option value="" separator="T">---Commercial Vectors---</option>
                             {% for record in records %}
                             <option exp_sys="{{ record['exp_sys'] }}" tag="{{ record['tag'] }}"
@@ -166,14 +191,7 @@
                                     >{{ record['name'] }}</option>
                             {% endfor %}
                             <option value="" separator="T">----Archived Vectors----</option>
-                            <option value="pUD" exp_sys="yeast" tag='myc' cp_num="high" resist="neo">
-                                pUD_myc_yeast
-                            </option>
-                            <option value="pEQ11" exp_sys="yeast" tag="his" cp_num="high" resist="neo">
-                                pEQ11_his_yeast
-                            </option>
-                            <option value="pQC" exp_sys="yeast" tag="no_tag"  cp_num="high" resist="neo">
-                                pQC_yeast
+
                             </option>
                         </select>
                     </div>
@@ -181,16 +199,21 @@
                 <td width=40></td>
                 <td colspan="2">
                     <div style="float: left" >
-                        <input id="squaredOne" type="checkbox" name="advance" value="None">
+                        <input  type="checkbox" name="advance" value="None"
+                                title="While the advance mode is selected，
+                                you can add more customized elements to your construct.
+                                At this stage, you can add various tags together with protease
+                                cutting sites. More elements will be added to this system later.">
                     </div>
-                    <div >
+                    <div>
                     <small>
                         Use <b>Advanced</b> Mode: more<br>
-                        customized options (Add tags, etc.)
+                        customizing options (Add tags, etc.)
                     </small>
                     </div>
                 </td>
         </table>
+        <p id="vec_info" style="color: #a9a9a9"></p>
         <center><span>--------------------------------------------------------------------------------------------------------------------------------------------
         </span></center>
         <h3>-----<i>Input your insert sequence</i></h3>
@@ -203,7 +226,9 @@
                     <div class="DivSel SelectWidth" name="re_select">
                         <select id=5re name=5re class="sel">
                             <option value="">Not selected</option>
-                            <option value="EcoRI:AG|GCCT">EcoRI:AG|GCCT</option>
+                            {%for RE in RE_list%}
+                                <option value="{{RE}}">{{RE}}</option>
+                            {%endfor%}
                         </select>
                     </div>
                 </td>
@@ -214,7 +239,9 @@
                     <div class="DivSel SelectWidth" name="re_select">
                         <select id=3re name=3re class="sel">
                             <option value="">Not selected</option>
-                            <option value="EcoRI:AG|GCCT">EcoRI:AG|GCCT</option>
+                            {%for RE in RE_list%}
+                            <option value="{{RE}}">{{RE}}</option>
+                            {%endfor%}
                         </select>
                     </div>
                 </td>
@@ -224,46 +251,26 @@
                     <span title="Input the your 5' untranslated region sequence">5' UTR sequence: </span>
                 </td>
                 <td>
-                    <input type="text" id="5utr"  name="5utr" size=20 value="">
+                    <input type="text" id="5utr"  name="5utr" size=20 value=""
+                            title="Please input the sequence outside of the 5’
+                            end of your CDS  (including restrict enzyme, kozak sequence, etc.).">
                 </td>
                 <td>
                     <span title="Input the your 3' untranslated region sequence">3' UTR sequence: </span>
                 </td>
                 <td>
-                    <input type="text" id="3utr"  name="3utr" size=20 value="">
+                    <input type="text" id="3utr"  name="3utr" size=20 value=""
+                            title="Please input the sequence outside of the 3’ end of your CDS.">
                 </td>
             </tr>
         </table>
-        <p title="This name might appear in the report of your plasmid.">Insert name:<input value="" name="order_name"></p>
+        <p title="This is the name for your inserted sequence.">
+            Insert name:<input value="" name="ins_name" id="ins_name"></p>
         <p>Insert Sequence (Please input your <b>coding sequence</b> in the textbox below):</p>
         <textarea  id="ins_seq" name="ins_seq" rows="7" cols="80"></textarea><br>
-        <script type="text/javascript">
-            $(function(){
-                $("#check").click(function(){
-                    $.ajax({
-                        type:"POST",
-                        async:false,
-                        url: "subcloning.py",
-                        data: "ins_seq_check="+ $("#ins_seq").val(),
-                        success: function(data){
-                                if (data.toLowerCase().indexOf("ok result") >= 0){
-                                    $("#test").html(data+". You can start now.");
-                                    //$("#test").replaceWith('<p id="test" style="color: red">'+data+'</p>');
-                                }
-                                else{
-                                    $("#test").html(data);
-                                    //$("#test").append(data);
-                                    //$("#test").replaceWith('<p id="test">'+data+'</p>');
-                                }
-                            }
-                    });
-
-                })
-            })
-        </script>
-        <p id="test" style="color: red">check msg goes here</p><br>
-        <input class="button" type="button" value="Check" id="check">
-        <input class="button" type="submit" value="Start" name="goto_modification" >
+        <p id="test" style="color: red"></p><br>
+        <input class="button" type="button" value="Start" id="start" name="goto_modification">
+        <input type="hidden" name="goto_modification" value="1">
         <input class="button" type=reset value="Reset" >
 
     </form>

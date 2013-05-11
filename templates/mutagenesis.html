@@ -41,6 +41,11 @@
                         'to <input type="text" class="mut_target" style="width: 80"></p>');
                 $.fn.autocomplete_mutation();
             });
+            $("#rm_muta").click(function(){
+                if ($("p :last").attr("id") != "first_entry"){
+                    $("p :last").remove();
+                }
+            });
         });
     </script>
 </head>
@@ -51,17 +56,20 @@
 residues are coloured red and the most hydrophilic ones are coloured blue.):</b>
 {{format_seqs[0]}}</pre>
     <form method="POST" enctype="multipart/form-data" action="./subcloning.py" >
+        <input class="button" type="button" value="Add a &#13;&#10;mutation site"
+               id="add_muta_site" name="add_muta_site" style="height:30px; font-size: 9px;">
+        <input class="button" type="button" value="Add a &#13;&#10;mutant"
+               id="add_muta" name="add_muta" style="height:30px; font-size: 9px">
+        <input class="button" type="button" value="Remove a &#13;&#10;mutant/mutation"
+               id="rm_muta" name="rm_muta" style="height:30px; font-size: 9px">
+        <br><br>
         <div class="surrounding" id="mut_div" style="border-style:dashed;">
             Mutagenesis: Please enter the position you want to add a mutation :<br>
-            <p>Mutant ------- <input type="text" class="mut_site" style="width: 80"> to
+            <p id="first_entry">Mutant ------- <input type="text" class="mut_site" style="width: 80"> to
                 <input type="text" class="mut_target" style="width: 80"></p>
 
-        </div><br>
-        <div style="clear: both">
-            <input class="button" type="button" value="Add a &#13;&#10;mutation site"
-                   id="add_muta_site" name="add_muta_site" style="height:30px; font-size: 9px;">
-            <input class="button" type="button" value="Add a &#13;&#10;mutant site"
-                   id="add_muta" name="add_muta" style="height:30px; font-size: 9px">
+        </div>
+        <div style="clear: both"><br>
             <input class="button" type="submit" value="Finish and &#13;&#10;get quote"
                    id="get_quote" name="get_quote" style="height:30px; font-size: 9px">
             <input type="button" value="Back" class=button style="height:30px" onclick=history.go(-1)>

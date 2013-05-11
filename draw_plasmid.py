@@ -46,7 +46,7 @@ class plasmid():
     anno_ratio=1.35
     Arrow=dict(pro_ter=10.,gene=5.)
     etype_list=["gene", "insert", "pro_ter", "tag", "RE"]
-    etype_colors=["red","lightgreen","lightblue","magenta","grey"]
+    etype_colors=["#7FFF00","#00FF00","#1E90FF","r","#8F8F8F"]
     Deg_nt=dict(A="A",T="T",G="G",C="C",
                 R="[AG]",Y="[CT]",M="[AC]",K="[GT]",
                 S="[GC]",W="[AT]",H="[ATC]",B="[GTC]",
@@ -90,6 +90,8 @@ class plasmid():
                 self.construct_name=re.search(r'.+/(.+?)\.gb$',file_name).group(1)
             else:
                 self.construct_name=re.search(r'^(.+)\.gb$',file_name).group(1)
+        else:
+            self.construct_name=construct_name
 			
         
     def append_block(self,start_theta,end_theta,etype,color="blue"):
@@ -309,13 +311,16 @@ class plasmid():
             name_size=self.big_size*.7
         else:
             name_size=self.big_size*.5
-            print self.construct_name,len(self.construct_name)
+            if len(self.construct_name)>=32:
+                self.construct_name=re.sub("---","\n---",self.construct_name)
+            #print self.construct_name,len(self.construct_name)
         plt.text(self.c_center[0],self.c_center[1]*1.03,self.construct_name,fontsize=name_size,
                 horizontalalignment='center',
                 verticalalignment='bottom')
         plt.text(self.c_center[0],self.c_center[1]*.97,str(self.whole_len)+'bp',fontsize=self.big_size,
              horizontalalignment='center',
              verticalalignment='top')
+        self.construct_name=re.sub("\n---","---",self.construct_name)
         #self.ax.axhline(y=self.c_center[0])
         #self.ax.axvline(x=self.c_center[1])
 
@@ -380,7 +385,7 @@ class plasmid():
         ins_left=100000
         ins_right=1000001
         for module in mcs_dict["ins_list"]:
-            module_color='lightgreen'
+            module_color=self.etype_colors[self.etype_list.index("insert")]
             exist_sites.append(module[0])
             whole_length=whole_length-(module[1]-module[0]+1)+20
             module_width=20/float(whole_length) #minimise the length of insert
@@ -395,7 +400,7 @@ class plasmid():
                                               -sign(x-left)*(x-left)*(1-ratio)\
                                               +sign(x-right)*(x-right)*(1-ratio)
         for module in mcs_dict["tag_list"]:
-            module_color='magenta'
+            module_color=self.etype_colors[self.etype_list.index("tag")]
             if module[0] in exist_sites:
                 continue
             else: exist_sites.append(module[0])
@@ -409,7 +414,7 @@ class plasmid():
                 fontsize=7,rotation=90)
 
         for module in mcs_dict["RE_list"]:
-            module_color='gray'
+            module_color=self.etype_colors[self.etype_list.index("RE")]
             if module[0] in exist_sites:
                 continue
             else: exist_sites.append(module[0])

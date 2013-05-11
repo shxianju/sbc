@@ -15,12 +15,8 @@
             });
             //$.fn.test = function()
 
-            $("#submit").click(function(){
-                if ($("#enzyme1").text()=="" || $("#enzyme2").text()==""){
-                    alert("Please select the position you want to insert your sequence in.");
-                    return false;
-                }
-            });
+
+
             var mcs_ac = [
             {% for RE_entry in mcs_dict['mcs_ac'] %}
                 {value: "{{RE_entry['value']}}",
@@ -29,6 +25,11 @@
                 },
             {% endfor %}
             ];
+            var mcs_re_pos=[
+            {% for RE_entry in mcs_dict['mcs_ac'] %}
+                "{{RE_entry['value']}}",
+            {% endfor %}
+        ];
             $(".ez_pos").autocomplete({
                 minLength: 0,
                 source: mcs_ac,
@@ -42,13 +43,40 @@
                     $( this).siblings(".ez_h_txt").val(ui.item.desc );
                     return false;
                 }
-            });
-
-            $.data( "ui-autocomplete" )._renderItem = function( ul, item ){
+            })
+                    .data( "ui-autocomplete" )._renderItem = function( ul, item ){
                 return $( "<li>" )
                         .append( "<a>" + item.label + "</a>" )
                         .appendTo( ul );
-        };
+            };
+        $("#ez1_txt").html($("#ez1_txt").siblings(".ez_h_txt").val());
+        $("#ez2_txt").html($("#ez2_txt").siblings(".ez_h_txt").val());
+        $("#sub").click(function(){
+            $.ajax({
+                type:"POST",
+                async:false,
+                url: "subcloning.py",
+                data: "vec_re_check={'ez1_pos': '"+$("#ez1_pos").val()
+                        +"', 'ez2_pos': '"+$("#ez2_pos").val()
+                        +"', 'mcs_re_pos': '["+mcs_re_pos+"]'}",
+                success: function(data){
+                    if (data.toLowerCase().indexOf("ok result") >= 0){
+                        $("#test").html("Please wait while redirecting your to the next page......");
+                        form.submit();
+                        //$("#test").replaceWith('<p id="test" style="color: red">'+data+'</p>');
+                    }
+                    else{
+                        $("#test").html(data);
+                        //$("#test").append(data);
+                        //$("#test").replaceWith('<p id="test">'+data+'</p>');
+                    }
+                }
+            });
+
+
+        });
+
+
         });
     </script>
     {% endblock %}
@@ -56,14 +84,19 @@
 <body>
     <h2>Subcloning Tool-----<i><small>modify your construct</small></i></h2>
     <div class="surrounding" >
-        <p style="color:grey;">----</p>
+        {{headline}}
         <br><br>
-        <form method="POST" enctype="multipart/form-data" action="./subcloning.py" >
+        <form method="POST" enctype="multipart/form-data" action="./subcloning.py"  id="form">
             <input type="hidden" name="ins_dict" value="{{ins_dict}}">
             <input type="hidden" name="path_dict" value="{{path_dict}}">
             <input type="hidden" name="mcs_dict" value="{{mcs_dict}}">
+            <input type="hidden" name="name_dict" value="{{name_dict}}">
             <img src="{{path_dict['mcs_path']}}" border="0" width="620" height="160" alt="Sequence diagram" title="test"><br>
             {% block body %}
+            Our <a href="http://www.genscript.com/cloneez_PCR_Cloning_kit.html" title="Click to see more information">
+            CloneEZ cloning method</a>
+            works with any insert and any vector at any restriction site.
+
             <div class="surrounding" id="re_sub" style="border-style:dashed;">
                 Do you want to insert you seq between:<br>
                 <span id=enzyme1 style="color:blue">
@@ -86,7 +119,9 @@
                 <br><label>A view of the Multiple Cloning Site</label><br>
                 <textarea name="mcs_seq" rows="5" cols="70" readonly style="background:#E6E6FA;color:grey;">{{mcs_dict["mcs_seq"]}}
                 </textarea><br>
-                <input id="submit" class="button" type="submit" value="Next" name="{{button_name}}" style="width:160px">
+                <p id="test" style="color: red"> </p><br>
+                <input id="sub" class="button" type="button" value="Next" name="{{name_dict['button_name']}}" style="width:160px">
+                <input name="{{name_dict['button_name']}}" type="hidden" value="1">
                 <input type="button" class="button" onclick=history.go(-1) value="Back" >
             </div>
         </form>
